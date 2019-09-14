@@ -1,6 +1,6 @@
 package architecture;
 
-public interface Manager
+public interface IManager
 {
     String get();
     boolean check(String answer);

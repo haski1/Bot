@@ -2,28 +2,38 @@ package core;
 
 import architecture.ICommand;
 import architecture.IHandler;
+import architecture.IManager;
+
+import javax.swing.*;
 
 public class Handler implements IHandler
 {
-    public Handler()
+    private IManager manager;
+
+    public Handler(IManager manager)
     {
+        this.manager = manager;
     }
 
     public void handle(ICommand command)
     {
         switch (command.command())
         {
-            case "start":
-                System.out.println("You are started!");
-                break;
             case "stop":
-                System.out.println("You are stopped!");
+                System.exit(0);
                 break;
             case "choice":
-                System.out.println("You made choice" + command.params()[0]);
+                if (manager.check(command.params()[0]))
+                {
+                    System.out.println("It is true");
+                }
+                else
+                {
+                    System.out.println("It is false");
+                }
                 break;
             case "next":
-                System.out.println("Next question");
+                System.out.println(manager.get());
                 break;
             default:
                 throw new IllegalArgumentException("Unknown command " + command.command());
