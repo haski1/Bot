@@ -22,7 +22,8 @@ public class Manager implements IManager
         return null;
     }
 
-    public boolean check(String answer) {
-        return false;
+    public boolean check(String answer)
+    {
+        return answer.equals(context);
     }
 }
