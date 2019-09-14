@@ -22,6 +22,7 @@ public class Runner
 
     private static void run()
     {
+        System.out.println("Welcome to the quiz!");
         while(true)
         {
             ICommand cmd = reader.nextCommand();

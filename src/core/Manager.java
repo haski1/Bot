@@ -10,7 +10,7 @@ public class Manager implements IManager
     private String context;
 
     public Manager(){
-        File file = new File("questions.txt");
+        File file = new File("src\\data\\questions.txt");
         FileReader fileReader = null;
         try
         {
@@ -31,6 +31,7 @@ public class Manager implements IManager
         while(!line.contains("Answer"))
         {
             output.append(line);
+            output.append("\n");
             try
             {
                 line = reader.readLine();
