@@ -1,4 +1,4 @@
-package core;
+package architecture;
 
 public interface IParser
 {

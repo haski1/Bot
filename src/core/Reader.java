@@ -1,5 +1,9 @@
 package core;
 
+import architecture.ICommand;
+import architecture.IHandler;
+import architecture.IParser;
+
 import java.util.Scanner;
 
 public class Reader
@@ -21,7 +25,7 @@ public class Reader
         isRunning = true;
         while (isRunning)
         {
-            String input = scanner.next();
+            String input = scanner.nextLine();
             ICommand cmd = parser.parse(input);
             handler.handle(cmd);
         }

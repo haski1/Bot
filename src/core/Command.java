@@ -1,5 +1,7 @@
 package core;
 
+import architecture.ICommand;
+
 public class Command implements ICommand
 {
     private String command;

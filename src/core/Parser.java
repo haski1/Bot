@@ -1,4 +1,6 @@
 package core;
+import architecture.IParser;
+
 import java.lang.reflect.Array;
 import java.util.Arrays;
 
