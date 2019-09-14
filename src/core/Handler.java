@@ -7,15 +7,15 @@ public class Handler implements IHandler
         switch (command.command())
         {
             case "start":
-
+                System.out.println("You are started!");
             case "stop":
-
-            case "choise":
-
+                System.out.println("You are stopped!");
+            case "choice":
+                System.out.println("You made choice" + command.params()[0]);
             case "next":
-
+                System.out.println("Next question");
             default:
-
+                throw new IllegalArgumentException("Unknown command " + command.command());
         }
     }
 }
