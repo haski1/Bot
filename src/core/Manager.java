@@ -46,6 +46,6 @@ public class Manager implements IManager
 
     public boolean check(String answer)
     {
-        return false;
+        return context.equals(answer);
     }
 }
