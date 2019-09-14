@@ -1,6 +1,7 @@
 package core;
 
-public interface ICommand {
+public interface ICommand
+{
     String command();
     String[] params();
 }
