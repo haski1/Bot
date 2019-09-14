@@ -1,1 +1,1 @@
-# Bot
+# Simple chat bot on Java
