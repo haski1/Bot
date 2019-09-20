@@ -1,4 +1,4 @@
-package core.Data;
+package core.data;
 
 public enum Source
 {

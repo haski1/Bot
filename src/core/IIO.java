@@ -1,6 +1,6 @@
 package core;
 
-import core.Data.Message;
+import core.data.Message;
 
 public interface IIO
 {

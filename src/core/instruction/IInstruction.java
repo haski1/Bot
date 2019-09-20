@@ -1,6 +1,7 @@
-package core.Instruction;
+package core.instruction;
 
-import core.Data.Message;
+import core.IIO;
+import core.data.Message;
 
 public interface IInstruction
 {

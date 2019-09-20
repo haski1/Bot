@@ -10,7 +10,7 @@
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
-# core.Data.Message Files #
+# core.data.Message Files #
 *.jar
 *.war
 *.nar
