@@ -1,11 +1,10 @@
 package platforms.telegram;
 
-import core.data.Message;
 import core.IIO;
+import core.data.Message;
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
-import platforms.telegram.TelegramBot;
 
 public class TelegramIO implements IIO
 {

@@ -40,18 +40,19 @@ public class BasicHandler implements IIO
         {
             ((IIO)handlers.find(msg.user.state)).in(msg);
         }
-
-        var instruction = (IInstruction)instructions.find(msg.instruction);
-        if (instruction != null)
-        {
-            instruction.execute(msg);
-        }
         else
         {
-            msg.result = "Command not found";
-
+            var instruction = (IInstruction)instructions.find(msg.instruction);
+            if (instruction != null)
+            {
+                instruction.execute(msg);
+            }
+            else
+            {
+                msg.result = "Command not found";
+            }
+            out(msg);
         }
-        out(msg);
     }
 
     @Override
