@@ -1,10 +1,13 @@
 package core.data;
 
-public class User
+import java.util.HashMap;
+
+public class User<T>
 {
     public String id;
     public String state;
     public Source platform;
+    public HashMap<String, T> data = new HashMap<String, T>();
 
     public User()
     {
