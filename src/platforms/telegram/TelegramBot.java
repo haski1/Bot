@@ -27,6 +27,7 @@ public class TelegramBot extends TelegramLongPollingBot
             var text = message.getText().replaceAll("\\s","");
             if (text.charAt(0) == '/')
                 text = text.substring(1);
+            text = text.toLowerCase();
             var id = message.getChatId().toString();
             var user = new User(id, "basichandler", Source.Telegram);
             var msg = new Message(user, text);
@@ -48,16 +49,19 @@ public class TelegramBot extends TelegramLongPollingBot
 
     public void out(Message msg)
     {
-        var sendMsg = new SendMessage();
-        sendMsg.setChatId(msg.user.id);
-        sendMsg.setText(msg.result);
-        try
+        if (msg.result != "" && msg.result != null)
         {
-            execute(sendMsg);
-        }
-        catch (TelegramApiException e)
-        {
+            var sendMsg = new SendMessage();
+            sendMsg.setChatId(msg.user.id);
+            sendMsg.setText(msg.result);
+            try
+            {
+                execute(sendMsg);
+            }
+            catch (TelegramApiException e)
+            {
 
+            }
         }
     }
 

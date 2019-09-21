@@ -8,7 +8,7 @@ public class Start extends BaseInstruction
     @Override
     public void execute(Message msg)
     {
-        msg.result = "Привет! \nЭто iwanttoseebot\nПока я ничего не умею";
+        msg.result = "Привет! \nЭто iwanttoseebot\nПиши /startquiz чтобы проиграть в викторину!";
         msg.done = true;
     }
 }

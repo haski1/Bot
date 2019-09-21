@@ -6,6 +6,8 @@ import core.instruction.IInstruction;
 import core.set.ISet;
 import handlers.quiz.instruction.QuizInstructionsSet;
 
+import java.io.IOException;
+
 public class Quiz implements IIO
 {
     private ISet instructions;

@@ -10,6 +10,8 @@ import handlers.basic.instructions.InstructionsSet;
 import platforms.PlatformsSet;
 import platforms.terminal.TerminalIO;
 
+import java.io.IOException;
+
 public class BasicHandler implements IIO
 {
     private ISet instructions;

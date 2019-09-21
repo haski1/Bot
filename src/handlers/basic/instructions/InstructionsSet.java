@@ -1,7 +1,9 @@
 package handlers.basic.instructions;
 
-import core.set.BaseSet;
+import core.IIO;
 import core.instruction.IInstruction;
+import core.set.BaseSet;
+import handlers.quiz.instruction.StartQuiz;
 
 public class InstructionsSet extends BaseSet<String, IInstruction>
 {
@@ -9,8 +11,10 @@ public class InstructionsSet extends BaseSet<String, IInstruction>
     {
         super();
         register(new Start());
-        //register(new Help());
-        //register(new List());
+        register(new StartQuiz());
+        register(new Help());
+        register(new List());
+
     }
 
     public void register(IInstruction instruction)

@@ -8,6 +8,6 @@ public class List extends BaseInstruction
     @Override
     public void execute(Message msg)
     {
-        msg.result = "Quiz\nAlchemy";
+        msg.result = "Quiz";
     }
 }
