@@ -1,18 +1,16 @@
-package handlers.quiz.instruction;
+package handlers.chat.instructions;
 
 import core.instruction.IInstruction;
 import core.set.BaseSet;
 
-import java.io.IOException;
-
-public class QuizInstructionsSet extends BaseSet<String, IInstruction>
+public class ChatInstructionSet extends BaseSet<String, IInstruction>
 {
-    public QuizInstructionsSet()
+    public ChatInstructionSet()
     {
         super();
+        register(new Search());
+        register(new Dialog());
         register(new Exit());
-        register(new Check());
-        register(new Question());
     }
 
     public void register(IInstruction instruction)

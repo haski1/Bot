@@ -10,8 +10,6 @@ import handlers.basic.instructions.InstructionsSet;
 import platforms.PlatformsSet;
 import platforms.terminal.TerminalIO;
 
-import java.io.IOException;
-
 public class BasicHandler implements IIO
 {
     private ISet instructions;
@@ -44,16 +42,11 @@ public class BasicHandler implements IIO
         }
         else
         {
-            var instruction = (IInstruction)instructions.find(msg.instruction);
+            var instruction = (IInstruction)instructions.find(msg.command);
             if (instruction != null)
             {
-                instruction.execute(msg);
+                instruction.execute(msg, this);
             }
-            else
-            {
-                msg.result = "Command not found";
-            }
-            out(msg);
         }
     }
 

@@ -6,5 +6,5 @@ import core.data.Message;
 public interface IInstruction
 {
     public String getName();
-    public void execute(Message msg);
+    public void execute(Message msg, IIO handler);
 }

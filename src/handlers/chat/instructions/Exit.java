@@ -1,7 +1,8 @@
-package handlers.quiz.instruction;
+package handlers.chat.instructions;
 
 import core.IIO;
 import core.data.Message;
+import core.data.User;
 import core.instruction.BaseInstruction;
 
 public class Exit extends BaseInstruction
@@ -11,5 +12,10 @@ public class Exit extends BaseInstruction
     {
         msg.user.state = "basichandler";
         msg.done = true;
+        if (Search.isSearching(msg.user))
+        {
+            Search.removeFromSearch(msg.user);
+        }
+        Search.nonunion(msg.user, handler);
     }
 }

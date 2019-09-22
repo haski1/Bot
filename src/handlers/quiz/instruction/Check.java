@@ -1,17 +1,16 @@
 package handlers.quiz.instruction;
 
+import core.IIO;
 import core.data.Message;
 import core.instruction.BaseInstruction;
-import handlers.quiz.QuizData;
-
-import java.util.HashMap;
+import handlers.quiz.data.QuizData;
 
 public class Check extends BaseInstruction
 {
     @Override
-    public void execute(Message msg) {
+    public void execute(Message msg, IIO handler) {
         var trueAnswer = ((QuizData)msg.user.data.get("quiz")).answer;
-        if (msg.instruction.equals(trueAnswer))
+        if (msg.text.equals(trueAnswer))
         {
             msg.result = "Верно";
         }
@@ -20,5 +19,6 @@ public class Check extends BaseInstruction
             msg.result = "Не верно";
         }
         msg.done = true;
+        handler.out(msg);
     }
 }

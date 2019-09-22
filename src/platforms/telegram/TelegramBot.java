@@ -24,13 +24,19 @@ public class TelegramBot extends TelegramLongPollingBot
         if (update.hasMessage())
         {
             var message = update.getMessage();
-            var text = message.getText().replaceAll("\\s","");
-            if (text.charAt(0) == '/')
-                text = text.substring(1);
-            text = text.toLowerCase();
+            var text = message.getText();
             var id = message.getChatId().toString();
             var user = new User(id, "basichandler", Source.Telegram);
-            var msg = new Message(user, text);
+            var msg = new Message(user);
+            if (text.charAt(0) == '/')
+            {
+                text = text.substring(1).replaceAll("\\s","").toLowerCase();
+                msg.command = text;
+            }
+            else
+            {
+                msg.text = text;
+            }
             handler.in(msg);
         }
     }

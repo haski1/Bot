@@ -1,19 +1,19 @@
-package handlers.quiz;
+package handlers.chat;
 
 import core.IIO;
 import core.data.Message;
 import core.instruction.IInstruction;
 import core.set.ISet;
-import handlers.quiz.instruction.QuizInstructionsSet;
+import handlers.chat.instructions.ChatInstructionSet;
 
-public class Quiz implements IIO
+public class Chat implements IIO
 {
     private ISet instructions;
     private IIO handler;
 
-    public Quiz(IIO handler)
+    public Chat(IIO handler)
     {
-        instructions = new QuizInstructionsSet();
+        instructions = new ChatInstructionSet();
         this.handler = handler;
     }
 
@@ -23,7 +23,7 @@ public class Quiz implements IIO
         var instruction = (IInstruction)instructions.find(msg.command);
         if (instruction == null && msg.text != null)
         {
-            instruction = (IInstruction)instructions.find("check");
+            instruction = (IInstruction)instructions.find("dialog");
         }
         instruction.execute(msg, this);
     }

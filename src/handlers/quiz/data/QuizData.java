@@ -1,4 +1,4 @@
-package handlers.quiz;
+package handlers.quiz.data;
 
 public class QuizData
 {

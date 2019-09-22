@@ -13,5 +13,5 @@ public abstract class BaseInstruction implements IInstruction
     }
 
     @Override
-    public abstract void execute(Message msg);
+    public abstract void execute(Message msg, IIO handler);
 }

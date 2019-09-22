@@ -35,11 +35,18 @@ public class TerminalIO implements IIO
     {
         while (true)
         {
-            var text = scanner.nextLine().replaceAll("\\s","");
-            text = text.toLowerCase();
+            var msg = new Message(user);
+            var text = scanner.nextLine();
             if (text.charAt(0) == '/')
-                text = text.substring(1);
-            var msg = new Message(user, text);
+            {
+                text.substring(1).replaceAll("\\s","").toLowerCase();
+                msg.command = text;
+            }
+            else
+            {
+                msg.text = text;
+            }
+
             in(msg);
         }
     }

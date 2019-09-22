@@ -1,15 +1,16 @@
 package handlers.basic.instructions;
 
+import core.IIO;
 import core.data.Message;
 import core.instruction.BaseInstruction;
 
 public class Help extends BaseInstruction
 {
     @Override
-    public void execute(Message msg)
+    public void execute(Message msg, IIO handler)
     {
-        msg.result = "Набери команду /list для просмотра списка всех сценариев работы \n" +
-                "Набери команду /start и сценарий чтобы запустить его";
+        msg.result = "Наберите команду /start чтобы узнать больше!";
         msg.done = true;
+        handler.out(msg);
     }
 }

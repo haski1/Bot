@@ -1,8 +1,9 @@
 package handlers.quiz.instruction;
 
+import core.IIO;
 import core.data.Message;
 import core.instruction.BaseInstruction;
-import handlers.quiz.QuizData;
+import handlers.quiz.data.QuizData;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -11,8 +12,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
-import static org.apache.logging.log4j.core.impl.ThrowableFormatOptions.FILE_NAME;
 
 public class Question extends BaseInstruction
 {
@@ -23,7 +22,8 @@ public class Question extends BaseInstruction
         List<String> lines = null;
         try
         {
-            lines = Files.readAllLines(Paths.get("C:\\Users\\haski\\Documents\\Code\\Java\\Bot\\src\\handlers\\quiz\\instruction\\questions.txt"), StandardCharsets.UTF_8);
+            lines = Files.readAllLines(Paths.get(System.getProperty("user.dir")
+                    + "\\src\\handlers\\quiz\\data\\questions.txt"), StandardCharsets.UTF_8);
         } catch (IOException e)
         {
             e.printStackTrace();
@@ -40,11 +40,12 @@ public class Question extends BaseInstruction
     }
 
     @Override
-    public void execute(Message msg)
+    public void execute(Message msg, IIO handler)
     {
         var question = questions.get(new Random().nextInt(questions.size()));
         msg.user.data.put("quiz", question);
         msg.result = question.question;
         msg.done = true;
+        handler.out(msg);
     }
 }
