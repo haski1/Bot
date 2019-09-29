@@ -2,6 +2,7 @@ package handlers.quiz.instruction;
 
 import core.IIO;
 import core.data.Message;
+import core.data.State;
 import core.instruction.BaseInstruction;
 
 public class StartQuiz extends BaseInstruction
@@ -11,7 +12,7 @@ public class StartQuiz extends BaseInstruction
     {
         msg.result = "Вы вошли в викторину\nДля получения вопроса пиши команду" +
                 " /question\nДля выхода пиши команду /exit";
-        msg.user.state = "quiz";
+        msg.user.state = State.Quiz;
         msg.done = true;
         handler.out(msg);
     }

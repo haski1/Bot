@@ -5,7 +5,7 @@ import java.util.HashMap;
 public class User<T>
 {
     public String id;
-    public String state;
+    public State state;
     public Source platform;
     public HashMap<String, T> data = new HashMap<>();
 
@@ -14,7 +14,7 @@ public class User<T>
 
     }
 
-    public User(String id, String state, Source platform)
+    public User(String id, State state, Source platform)
     {
         this.id = id;
         this.state = state;
@@ -26,7 +26,7 @@ public class User<T>
     {
         if (!(obj instanceof User))
             return false;
-        return ((User) obj).id.equals(id);
+        return ((User) obj).id.equals(id) && ((User) obj).platform.equals(platform);
     }
 
     @Override

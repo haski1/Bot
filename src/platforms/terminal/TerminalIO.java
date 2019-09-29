@@ -2,6 +2,7 @@ package platforms.terminal;
 
 import core.data.Message;
 import core.data.Source;
+import core.data.State;
 import core.data.User;
 import core.IIO;
 
@@ -15,7 +16,7 @@ public class TerminalIO implements IIO
 
     public TerminalIO(IIO handler)
     {
-        user = new User("terminal", "basichandler", Source.Terminal);
+        user = new User("terminal", State.BasicHandler, Source.Terminal);
         this.handler = handler;
     }
 

@@ -3,6 +3,7 @@ package platforms.telegram;
 import core.IIO;
 import core.data.Message;
 import core.data.Source;
+import core.data.State;
 import core.data.User;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -26,7 +27,7 @@ public class TelegramBot extends TelegramLongPollingBot
             var message = update.getMessage();
             var text = message.getText();
             var id = message.getChatId().toString();
-            var user = new User(id, "basichandler", Source.Telegram);
+            var user = new User(id, State.BasicHandler, Source.Telegram);
             var msg = new Message(user);
             if (text.charAt(0) == '/')
             {
