@@ -4,17 +4,17 @@ import core.data.Message;
 import core.data.Source;
 import core.data.State;
 import core.data.User;
-import core.IIO;
+import core.IO;
 
 import java.util.Scanner;
 
-public class TerminalIO implements IIO
+public class TerminalIO implements IO
 {
     private User user;
-    private IIO handler;
+    private IO handler;
     private Scanner scanner = new Scanner(System.in);
 
-    public TerminalIO(IIO handler)
+    public TerminalIO(IO handler)
     {
         user = new User("terminal", State.BasicHandler, Source.Terminal);
         this.handler = handler;

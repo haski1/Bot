@@ -2,7 +2,7 @@ package core;
 
 import core.data.Message;
 
-public interface IIO
+public interface IO
 {
     public void in(Message msg);
 

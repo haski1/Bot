@@ -1,12 +1,12 @@
 package handlers.basic;
 
 import core.data.User;
-import core.set.ISet;
+import core.set.Set;
 
 import java.util.Collection;
 import java.util.HashMap;
 
-public class Users implements ISet<User, User>
+public class Users implements Set<User, User>
 {
     private HashMap<User, User> users;
 

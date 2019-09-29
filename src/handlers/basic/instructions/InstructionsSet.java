@@ -1,12 +1,11 @@
 package handlers.basic.instructions;
 
-import core.IIO;
-import core.instruction.IInstruction;
+import core.instruction.Instruction;
 import core.set.BaseSet;
 import handlers.chat.instructions.StartChat;
 import handlers.quiz.instruction.StartQuiz;
 
-public class InstructionsSet extends BaseSet<String, IInstruction>
+public class InstructionsSet extends BaseSet<String, Instruction>
 {
     public InstructionsSet()
     {
@@ -18,7 +17,7 @@ public class InstructionsSet extends BaseSet<String, IInstruction>
 
     }
 
-    public void register(IInstruction instruction)
+    public void register(Instruction instruction)
     {
         super.register(instruction.getName(), instruction);
     }

@@ -1,14 +1,12 @@
 package handlers.chat.instructions;
 
-import core.IIO;
+import core.IO;
 import core.data.Message;
 import core.data.User;
 import core.instruction.BaseInstruction;
 
 import java.util.ArrayDeque;
-import java.util.ArrayList;
 import java.util.Deque;
-import java.util.List;
 
 public class Search extends BaseInstruction
 {
@@ -34,7 +32,7 @@ public class Search extends BaseInstruction
     }
 
     @Override
-    public void execute(Message msg, IIO handler)
+    public void execute(Message msg, IO handler)
     {
         if (msg.user.data.get("chat") != null)
         {
@@ -57,7 +55,7 @@ public class Search extends BaseInstruction
         }
     }
 
-    private void union(User first, User second, IIO handler)
+    private void union(User first, User second, IO handler)
     {
         first.data.put("chat", second);
         second.data.put("chat", first);
@@ -70,7 +68,7 @@ public class Search extends BaseInstruction
         handler.out(msgToSecond);
     }
 
-    public static void nonunion(User user, IIO handler)
+    public static void nonunion(User user, IO handler)
     {
         var userTwo = user.data.get("chat");
         if (userTwo != null)

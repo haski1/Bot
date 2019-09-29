@@ -1,20 +1,20 @@
 package handlers.basic;
 
-import core.IIO;
+import core.IO;
 import core.data.Message;
 import core.data.Source;
-import core.instruction.IInstruction;
-import core.set.ISet;
+import core.instruction.Instruction;
+import core.set.Set;
 import handlers.basic.handlers.HandlersSet;
 import handlers.basic.instructions.InstructionsSet;
 import platforms.PlatformsSet;
 import platforms.terminal.TerminalIO;
 
-public class BasicHandler implements IIO
+public class BasicHandler implements IO
 {
-    private ISet instructions;
-    private ISet handlers;
-    private ISet platforms;
+    private Set instructions;
+    private Set handlers;
+    private Set platforms;
     private Users users;
 
     public BasicHandler()
@@ -38,11 +38,11 @@ public class BasicHandler implements IIO
         }
         if (handlers.contains(msg.user.state))
         {
-            ((IIO)handlers.find(msg.user.state)).in(msg);
+            ((IO)handlers.find(msg.user.state)).in(msg);
         }
         else
         {
-            var instruction = (IInstruction)instructions.find(msg.command);
+            var instruction = (Instruction)instructions.find(msg.command);
             if (instruction != null)
             {
                 instruction.execute(msg, this);
@@ -53,7 +53,7 @@ public class BasicHandler implements IIO
     @Override
     public void out(Message msg)
     {
-        var platform = (IIO)platforms.find(msg.user.platform);
+        var platform = (IO)platforms.find(msg.user.platform);
         platform.out(msg);
     }
 

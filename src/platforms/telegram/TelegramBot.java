@@ -1,6 +1,6 @@
 package platforms.telegram;
 
-import core.IIO;
+import core.IO;
 import core.data.Message;
 import core.data.Source;
 import core.data.State;
@@ -12,9 +12,9 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 public class TelegramBot extends TelegramLongPollingBot
 {
-    private IIO handler;
+    private IO handler;
 
-    public TelegramBot(IIO handler)
+    public TelegramBot(IO handler)
     {
         this.handler = handler;
     }

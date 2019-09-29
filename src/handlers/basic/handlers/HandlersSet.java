@@ -2,22 +2,20 @@ package handlers.basic.handlers;
 
 import core.data.State;
 import core.set.BaseSet;
-import core.IIO;
+import core.IO;
 import handlers.chat.Chat;
 import handlers.quiz.Quiz;
 
-import java.io.IOException;
-
-public class HandlersSet extends BaseSet<State, IIO>
+public class HandlersSet extends BaseSet<State, IO>
 {
-    public HandlersSet(IIO handler)
+    public HandlersSet(IO handler)
     {
         super();
         register(new Quiz(handler));
         register(new Chat(handler));
     }
 
-    public void register(IIO obj)
+    public void register(IO obj)
     {
         var key = State.valueOf(obj.getClass().getSimpleName());
         super.register(key, obj);

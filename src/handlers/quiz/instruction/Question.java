@@ -1,6 +1,6 @@
 package handlers.quiz.instruction;
 
-import core.IIO;
+import core.IO;
 import core.data.Message;
 import core.instruction.BaseInstruction;
 import handlers.quiz.data.QuizData;
@@ -40,7 +40,7 @@ public class Question extends BaseInstruction
     }
 
     @Override
-    public void execute(Message msg, IIO handler)
+    public void execute(Message msg, IO handler)
     {
         var question = questions.get(new Random().nextInt(questions.size()));
         msg.user.data.put("quiz", question);

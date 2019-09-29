@@ -1,6 +1,6 @@
 package handlers.chat.instructions;
 
-import core.IIO;
+import core.IO;
 import core.data.Message;
 import core.data.User;
 import core.instruction.BaseInstruction;
@@ -8,7 +8,7 @@ import core.instruction.BaseInstruction;
 public class Dialog extends BaseInstruction
 {
     @Override
-    public void execute(Message msg, IIO handler)
+    public void execute(Message msg, IO handler)
     {
         var user = msg.user.data.get("chat");
         if (user != null)

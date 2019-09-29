@@ -1,11 +1,9 @@
 package handlers.quiz.instruction;
 
-import core.instruction.IInstruction;
+import core.instruction.Instruction;
 import core.set.BaseSet;
 
-import java.io.IOException;
-
-public class QuizInstructionsSet extends BaseSet<String, IInstruction>
+public class QuizInstructionsSet extends BaseSet<String, Instruction>
 {
     public QuizInstructionsSet()
     {
@@ -15,7 +13,7 @@ public class QuizInstructionsSet extends BaseSet<String, IInstruction>
         register(new Question());
     }
 
-    public void register(IInstruction instruction)
+    public void register(Instruction instruction)
     {
         super.register(instruction.getName(), instruction);
     }

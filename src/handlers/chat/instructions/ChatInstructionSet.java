@@ -1,9 +1,9 @@
 package handlers.chat.instructions;
 
-import core.instruction.IInstruction;
+import core.instruction.Instruction;
 import core.set.BaseSet;
 
-public class ChatInstructionSet extends BaseSet<String, IInstruction>
+public class ChatInstructionSet extends BaseSet<String, Instruction>
 {
     public ChatInstructionSet()
     {
@@ -13,7 +13,7 @@ public class ChatInstructionSet extends BaseSet<String, IInstruction>
         register(new Exit());
     }
 
-    public void register(IInstruction instruction)
+    public void register(Instruction instruction)
     {
         super.register(instruction.getName(), instruction);
     }

@@ -1,10 +1,9 @@
 package core.instruction;
 
-import core.IIO;
+import core.IO;
 import core.data.Message;
-import core.instruction.IInstruction;
 
-public abstract class BaseInstruction implements IInstruction
+public abstract class BaseInstruction implements Instruction
 {
     @Override
     public String getName()
@@ -13,5 +12,5 @@ public abstract class BaseInstruction implements IInstruction
     }
 
     @Override
-    public abstract void execute(Message msg, IIO handler);
+    public abstract void execute(Message msg, IO handler);
 }

@@ -3,7 +3,7 @@ package core.set;
 import java.util.Collection;
 import java.util.HashMap;
 
-public class BaseSet<T1, T2> implements ISet<T1, T2>
+public class BaseSet<T1, T2> implements Set<T1, T2>
 {
     private HashMap<T1, T2> set;
 

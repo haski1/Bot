@@ -1,17 +1,17 @@
 package platforms.telegram;
 
-import core.IIO;
+import core.IO;
 import core.data.Message;
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 
-public class TelegramIO implements IIO
+public class TelegramIO implements IO
 {
-    private IIO handler;
+    private IO handler;
     private TelegramBot bot;
 
-    public TelegramIO(IIO handler)
+    public TelegramIO(IO handler)
     {
         this.handler = handler;
         ApiContextInitializer.init();

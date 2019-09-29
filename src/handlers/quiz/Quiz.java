@@ -1,17 +1,17 @@
 package handlers.quiz;
 
-import core.IIO;
+import core.IO;
 import core.data.Message;
-import core.instruction.IInstruction;
-import core.set.ISet;
+import core.instruction.Instruction;
+import core.set.Set;
 import handlers.quiz.instruction.QuizInstructionsSet;
 
-public class Quiz implements IIO
+public class Quiz implements IO
 {
-    private ISet instructions;
-    private IIO handler;
+    private Set instructions;
+    private IO handler;
 
-    public Quiz(IIO handler)
+    public Quiz(IO handler)
     {
         instructions = new QuizInstructionsSet();
         this.handler = handler;
@@ -20,10 +20,10 @@ public class Quiz implements IIO
     @Override
     public void in(Message msg)
     {
-        var instruction = (IInstruction)instructions.find(msg.command);
+        var instruction = (Instruction)instructions.find(msg.command);
         if (instruction == null && msg.text != null)
         {
-            instruction = (IInstruction)instructions.find("check");
+            instruction = (Instruction)instructions.find("check");
         }
         instruction.execute(msg, this);
     }
