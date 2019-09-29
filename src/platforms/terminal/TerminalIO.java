@@ -40,7 +40,7 @@ public class TerminalIO implements IO
             var text = scanner.nextLine();
             if (text.charAt(0) == '/')
             {
-                text.substring(1).replaceAll("\\s","").toLowerCase();
+                text = text.substring(1).replaceAll("\\s","").toLowerCase();
                 msg.command = text;
             }
             else

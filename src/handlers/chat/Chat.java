@@ -2,28 +2,26 @@ package handlers.chat;
 
 import core.IO;
 import core.data.Message;
-import core.instruction.Instruction;
-import core.set.Set;
 import handlers.chat.instructions.ChatInstructionSet;
 
 public class Chat implements IO
 {
-    private Set instructions;
-    private IO handler;
+    private ChatInstructionSet instructions;
+    private IO parentHandler;
 
     public Chat(IO handler)
     {
         instructions = new ChatInstructionSet();
-        this.handler = handler;
+        this.parentHandler = handler;
     }
 
     @Override
     public void in(Message msg)
     {
-        var instruction = (Instruction)instructions.find(msg.command);
+        var instruction = instructions.get(msg.command);
         if (instruction == null && msg.text != null)
         {
-            instruction = (Instruction)instructions.find("dialog");
+            instruction = instructions.getDefault();
         }
         instruction.execute(msg, this);
     }
@@ -31,6 +29,6 @@ public class Chat implements IO
     @Override
     public void out(Message msg)
     {
-        handler.out(msg);
+        parentHandler.out(msg);
     }
 }

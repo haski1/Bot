@@ -2,12 +2,12 @@ package core.data;
 
 import java.util.HashMap;
 
-public class User<T>
+public class User
 {
     public String id;
     public State state;
     public Source platform;
-    public HashMap<String, T> data = new HashMap<>();
+    public HashMap<State, Object> data = new HashMap<>();
 
     public User()
     {
@@ -32,6 +32,6 @@ public class User<T>
     @Override
     public int hashCode()
     {
-        return id.hashCode();
+        return (id + platform).hashCode();
     }
 }

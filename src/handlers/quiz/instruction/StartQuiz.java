@@ -10,10 +10,11 @@ public class StartQuiz extends BaseInstruction
     @Override
     public void execute(Message msg, IO handler)
     {
-        msg.result = "Вы вошли в викторину\nДля получения вопроса пиши команду" +
-                " /question\nДля выхода пиши команду /exit";
+        msg.result = "Вы вошли в викторину!\nВыход: /exit";
         msg.user.state = State.Quiz;
         msg.done = true;
         handler.out(msg);
+        msg.command = "question";
+        handler.in(msg);
     }
 }

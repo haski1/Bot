@@ -1,6 +1,6 @@
 import handlers.basic.BasicHandler;
 
-public class Runner
+public class Main
 {
     public static void main(String[] args)
     {

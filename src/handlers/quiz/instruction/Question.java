@@ -2,6 +2,7 @@ package handlers.quiz.instruction;
 
 import core.IO;
 import core.data.Message;
+import core.data.State;
 import core.instruction.BaseInstruction;
 import handlers.quiz.data.QuizData;
 
@@ -26,7 +27,7 @@ public class Question extends BaseInstruction
                     + "\\src\\handlers\\quiz\\data\\questions.txt"), StandardCharsets.UTF_8);
         } catch (IOException e)
         {
-            e.printStackTrace();
+            System.out.println("Quiz: questions isn\'t uploaded");
         }
         for(String line: lines){
             questions.add(parseLine(line));
@@ -43,7 +44,7 @@ public class Question extends BaseInstruction
     public void execute(Message msg, IO handler)
     {
         var question = questions.get(new Random().nextInt(questions.size()));
-        msg.user.data.put("quiz", question);
+        msg.user.data.put(State.Quiz, question);
         msg.result = question.question;
         msg.done = true;
         handler.out(msg);

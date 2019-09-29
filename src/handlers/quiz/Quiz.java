@@ -2,28 +2,26 @@ package handlers.quiz;
 
 import core.IO;
 import core.data.Message;
-import core.instruction.Instruction;
-import core.set.Set;
 import handlers.quiz.instruction.QuizInstructionsSet;
 
 public class Quiz implements IO
 {
-    private Set instructions;
-    private IO handler;
+    private QuizInstructionsSet instructions;
+    private IO parentHandler;
 
     public Quiz(IO handler)
     {
         instructions = new QuizInstructionsSet();
-        this.handler = handler;
+        this.parentHandler = handler;
     }
 
     @Override
     public void in(Message msg)
     {
-        var instruction = (Instruction)instructions.find(msg.command);
+        var instruction = instructions.get(msg.command);
         if (instruction == null && msg.text != null)
         {
-            instruction = (Instruction)instructions.find("check");
+            instruction = instructions.getDefault();
         }
         instruction.execute(msg, this);
     }
@@ -31,6 +29,6 @@ public class Quiz implements IO
     @Override
     public void out(Message msg)
     {
-        handler.out(msg);
+        parentHandler.out(msg);
     }
 }

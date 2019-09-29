@@ -1,20 +1,29 @@
 package handlers.quiz.instruction;
 
 import core.instruction.Instruction;
-import core.set.BaseSet;
 
-public class QuizInstructionsSet extends BaseSet<String, Instruction>
+import java.util.HashMap;
+
+public class QuizInstructionsSet extends HashMap<String, Instruction>
 {
+    private Instruction defaultInstruction;
     public QuizInstructionsSet()
     {
         super();
+        defaultInstruction = new Check();
+
         register(new Exit());
-        register(new Check());
+        register(defaultInstruction);
         register(new Question());
     }
 
-    public void register(Instruction instruction)
+    private void register(Instruction instruction)
     {
-        super.register(instruction.getName(), instruction);
+        super.put(instruction.getName(), instruction);
+    }
+
+    public Instruction getDefault()
+    {
+        return defaultInstruction;
     }
 }
