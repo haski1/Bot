@@ -16,7 +16,7 @@ public class HandlersSet extends HashMap<State, IO>
         register(new Chat(handler));
     }
 
-    public void register(IO obj)
+    private void register(IO obj)
     {
         var key = State.valueOf(obj.getClass().getSimpleName());
         this.put(key, obj);

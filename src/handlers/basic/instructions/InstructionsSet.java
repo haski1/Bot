@@ -2,7 +2,6 @@ package handlers.basic.instructions;
 
 import core.instruction.Instruction;
 import handlers.chat.instructions.StartChat;
-import handlers.quiz.instruction.Check;
 import handlers.quiz.instruction.StartQuiz;
 
 import java.util.HashMap;
