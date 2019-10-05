@@ -29,6 +29,7 @@ public class TelegramBot extends TelegramLongPollingBot
             var id = message.getChatId().toString();
             var user = new User(id, State.BasicHandler, Source.Telegram);
             var msg = new Message(user);
+
             if (text.charAt(0) == '/')
             {
                 text = text.substring(1).replaceAll("\\s","").toLowerCase();
@@ -67,7 +68,7 @@ public class TelegramBot extends TelegramLongPollingBot
             }
             catch (TelegramApiException e)
             {
-
+                System.out.println("Telegram: message did not send");
             }
         }
     }

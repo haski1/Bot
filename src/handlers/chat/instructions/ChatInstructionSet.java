@@ -1,20 +1,30 @@
 package handlers.chat.instructions;
 
 import core.instruction.Instruction;
-import core.set.BaseSet;
 
-public class ChatInstructionSet extends BaseSet<String, Instruction>
+import java.util.HashMap;
+
+public class ChatInstructionSet extends HashMap<String, Instruction>
 {
+    private Instruction defaultInstruction;
+
     public ChatInstructionSet()
     {
         super();
+        defaultInstruction = new Dialog();
+
         register(new Search());
-        register(new Dialog());
+        register(defaultInstruction);
         register(new Exit());
     }
 
-    public void register(Instruction instruction)
+    private void register(Instruction instruction)
     {
-        super.register(instruction.getName(), instruction);
+        this.put(instruction.getName(), instruction);
+    }
+
+    public Instruction getDefault()
+    {
+        return defaultInstruction;
     }
 }

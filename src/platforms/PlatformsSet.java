@@ -1,17 +1,18 @@
 package platforms;
 
-import core.data.Source;
 import core.IO;
-import core.set.BaseSet;
+import core.data.Source;
 import platforms.telegram.TelegramIO;
 import platforms.terminal.TerminalIO;
 
-public class PlatformsSet extends BaseSet<Source, IO>
+import java.util.HashMap;
+
+public class PlatformsSet extends HashMap<Source, IO>
 {
     public PlatformsSet(IO handler)
     {
         super();
-        super.register(Source.Terminal, new TerminalIO(handler));
-        super.register(Source.Telegram, new TelegramIO(handler));
+        this.put(Source.Terminal, new TerminalIO(handler));
+        this.put(Source.Telegram, new TelegramIO(handler));
     }
 }

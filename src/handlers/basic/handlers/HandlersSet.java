@@ -1,12 +1,13 @@
 package handlers.basic.handlers;
 
-import core.data.State;
-import core.set.BaseSet;
 import core.IO;
+import core.data.State;
 import handlers.chat.Chat;
 import handlers.quiz.Quiz;
 
-public class HandlersSet extends BaseSet<State, IO>
+import java.util.HashMap;
+
+public class HandlersSet extends HashMap<State, IO>
 {
     public HandlersSet(IO handler)
     {
@@ -15,9 +16,9 @@ public class HandlersSet extends BaseSet<State, IO>
         register(new Chat(handler));
     }
 
-    public void register(IO obj)
+    private void register(IO obj)
     {
         var key = State.valueOf(obj.getClass().getSimpleName());
-        super.register(key, obj);
+        this.put(key, obj);
     }
 }

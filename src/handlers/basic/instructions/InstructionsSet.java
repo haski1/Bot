@@ -1,24 +1,33 @@
 package handlers.basic.instructions;
 
 import core.instruction.Instruction;
-import core.set.BaseSet;
 import handlers.chat.instructions.StartChat;
 import handlers.quiz.instruction.StartQuiz;
 
-public class InstructionsSet extends BaseSet<String, Instruction>
+import java.util.HashMap;
+
+public class InstructionsSet extends HashMap<String, Instruction>
 {
+    private Instruction defaultInstruction;
+
     public InstructionsSet()
     {
         super();
+        defaultInstruction = new Help();
+
         register(new Start());
         register(new StartQuiz());
         register(new StartChat());
-        register(new Help());
+        register(defaultInstruction);
 
     }
-
-    public void register(Instruction instruction)
+    private void register(Instruction instruction)
     {
-        super.register(instruction.getName(), instruction);
+        this.put(instruction.getName(), instruction);
+    }
+
+    public Instruction getDefault()
+    {
+        return defaultInstruction;
     }
 }

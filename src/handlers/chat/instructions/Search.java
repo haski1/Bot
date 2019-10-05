@@ -2,6 +2,7 @@ package handlers.chat.instructions;
 
 import core.IO;
 import core.data.Message;
+import core.data.State;
 import core.data.User;
 import core.instruction.BaseInstruction;
 
@@ -34,7 +35,7 @@ public class Search extends BaseInstruction
     @Override
     public void execute(Message msg, IO handler)
     {
-        if (msg.user.data.get("chat") != null)
+        if (msg.user.data.get(State.Chat) != null)
         {
             nonunion(msg.user, handler);
         }
@@ -57,8 +58,8 @@ public class Search extends BaseInstruction
 
     private void union(User first, User second, IO handler)
     {
-        first.data.put("chat", second);
-        second.data.put("chat", first);
+        first.data.put(State.Chat, second);
+        second.data.put(State.Chat, first);
         var result = "Собеседник найден!\n(Предепреджение: вы общаетесь с реальным человеком!)";
 
         var msgToFirst = new Message(first);
@@ -70,11 +71,11 @@ public class Search extends BaseInstruction
 
     public static void nonunion(User user, IO handler)
     {
-        var userTwo = user.data.get("chat");
+        var userTwo = user.data.get(State.Chat);
         if (userTwo != null)
         {
-            ((User)userTwo).data.put("chat", null);
-            user.data.put("chat", null);
+            ((User)userTwo).data.put(State.Chat, null);
+            user.data.put(State.Chat, null);
             var result = "Собеседник вышел\n Для поиска напишите команду /search";
             var answer = new Message((User)userTwo);
             answer.result = result;

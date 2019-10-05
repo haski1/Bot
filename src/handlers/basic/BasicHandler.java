@@ -3,26 +3,28 @@ package handlers.basic;
 import core.IO;
 import core.data.Message;
 import core.data.Source;
-import core.instruction.Instruction;
-import core.set.Set;
+import core.data.User;
 import handlers.basic.handlers.HandlersSet;
 import handlers.basic.instructions.InstructionsSet;
 import platforms.PlatformsSet;
 import platforms.terminal.TerminalIO;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BasicHandler implements IO
 {
-    private Set instructions;
-    private Set handlers;
-    private Set platforms;
-    private Users users;
+    private InstructionsSet instructions;
+    private HandlersSet handlers;
+    private PlatformsSet platforms;
+    private List<User> users;
 
     public BasicHandler()
     {
         platforms = new PlatformsSet(this);
         handlers = new HandlersSet(this);
         instructions = new InstructionsSet();
-        users = new Users();
+        users = new ArrayList<>();
     }
 
     @Override
@@ -30,22 +32,25 @@ public class BasicHandler implements IO
     {
         if (users.contains(msg.user))
         {
-            msg.user = users.find(msg.user);
-        }
-        else
+            var index = users.indexOf(msg.user);
+            msg.user = users.get(index);
+        } else
         {
-            users.register(msg.user);
+            users.add(msg.user);
         }
-        if (handlers.contains(msg.user.state))
+        if (handlers.containsKey(msg.user.state))
         {
-            ((IO)handlers.find(msg.user.state)).in(msg);
-        }
-        else
+            (handlers.get(msg.user.state)).in(msg);
+        } else
         {
-            var instruction = (Instruction)instructions.find(msg.command);
+            var instruction = instructions.get(msg.command);
             if (instruction != null)
             {
                 instruction.execute(msg, this);
+            }
+            else
+            {
+                instructions.getDefault().execute(msg, this);
             }
         }
     }
@@ -53,12 +58,12 @@ public class BasicHandler implements IO
     @Override
     public void out(Message msg)
     {
-        var platform = (IO)platforms.find(msg.user.platform);
+        var platform = platforms.get(msg.user.platform);
         platform.out(msg);
     }
 
     public void run()
     {
-        ((TerminalIO)platforms.find(Source.Terminal)).run();
+        ((TerminalIO) platforms.get(Source.Terminal)).run();
     }
 }
