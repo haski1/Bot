@@ -1,1 +1,1 @@
-web: java Main
+worker: java Main
