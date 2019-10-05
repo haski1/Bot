@@ -1,1 +1,1 @@
-web: java Main
+web: java src/Main
