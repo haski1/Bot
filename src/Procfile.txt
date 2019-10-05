@@ -1,0 +1,2 @@
+web: javac Main.java
+web: java Main
