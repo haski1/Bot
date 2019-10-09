@@ -1,10 +1,7 @@
 package handlers.chat.instructions;
 
 import core.IO;
-import core.data.Answer;
-import core.data.Message;
-import core.data.State;
-import core.data.User;
+import core.data.*;
 import core.command.Command;
 
 import java.util.ArrayDeque;
@@ -37,7 +34,14 @@ public class Search implements Command
 
         var ansToFirst = new Answer(first.getId(), result);
         var ansToSecond = new Answer(second.getId(), result);
-
+        if (ansToFirst.getId().getPlatform() == Source.Telegram)
+        {
+            ansToFirst.addButton("⛔");
+        }
+        if (ansToSecond.getId().getPlatform() == Source.Telegram)
+        {
+            ansToSecond.addButton("⛔");
+        }
         handler.out(ansToFirst);
         handler.out(ansToSecond);
     }
@@ -53,7 +57,11 @@ public class Search implements Command
 
             var result = "Собеседник вышел\n Для поиска напишите команду /search";
             var answer = new Answer(userTwo.getId(), result);
-
+            if (user.getId().getPlatform() == Source.Telegram)
+            {
+                answer.addButton("\uD83D\uDD0E");
+                answer.addButton("⛔");
+            }
             handler.out(answer);
         }
     }
@@ -71,7 +79,13 @@ public class Search implements Command
         }
         addToSearch(user);
         var result = "Ищем собеседника...";
-        parent.out(new Answer(msg.getId(), result));
+        var answer = new Answer(user.getId(), result);
+        if (user.getId().getPlatform() == Source.Telegram)
+        {
+            answer.addButton("⛔");
+        }
+        parent.out(answer);
+
 
         if (freeUsers.size() >= 2)
         {

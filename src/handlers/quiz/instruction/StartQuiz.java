@@ -1,10 +1,7 @@
 package handlers.quiz.instruction;
 
 import core.IO;
-import core.data.Answer;
-import core.data.Message;
-import core.data.State;
-import core.data.User;
+import core.data.*;
 import core.command.Command;
 
 public class StartQuiz implements Command
@@ -14,7 +11,12 @@ public class StartQuiz implements Command
     {
         var result = "Вы вошли в викторину!\nВыход: /exit";
         user.setState(State.Quiz);
-        parent.out(new Answer(msg.getId(), result));
+        var answer = new Answer(user.getId(), result);
+        if (user.getId().getPlatform() == Source.Telegram)
+        {
+            answer.addButton("⛔");
+        }
+        parent.out(answer);
         parent.in(new Message(msg.getId(), "question"));
     }
 }

@@ -1,10 +1,7 @@
 package handlers.quiz.instruction;
 
 import core.IO;
-import core.data.Answer;
-import core.data.Message;
-import core.data.State;
-import core.data.User;
+import core.data.*;
 import core.command.Command;
 import handlers.quiz.data.QuizData;
 
@@ -57,6 +54,11 @@ public class Question implements Command
         var question = questions.get(new Random().nextInt(questions.size()));
         user.setData(State.Quiz, question);
         var result = question.question;
-        parent.out(new Answer(msg.getId(), result));
+        var answer = new Answer(msg.getId(), result);
+        if (user.getId().getPlatform() == Source.Telegram)
+        {
+            answer.addButton("⛔");
+        }
+        parent.out(answer);
     }
 }

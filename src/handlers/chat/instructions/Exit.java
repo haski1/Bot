@@ -1,9 +1,7 @@
 package handlers.chat.instructions;
 
 import core.IO;
-import core.data.Message;
-import core.data.State;
-import core.data.User;
+import core.data.*;
 import core.command.Command;
 
 public class Exit implements Command
@@ -18,5 +16,11 @@ public class Exit implements Command
             Search.removeFromSearch(user);
         }
         Search.nonunion(user, parent);
+        var answer = new Answer(msg.getId(), "Вы вышли из чата");
+        if (user.getId().getPlatform() == Source.Telegram)
+        {
+            answer.addButton("\uD83D\uDE80");
+        }
+        parent.out(answer);
     }
 }

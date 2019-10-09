@@ -1,10 +1,7 @@
 package handlers.chat.instructions;
 
 import core.IO;
-import core.data.Answer;
-import core.data.Message;
-import core.data.State;
-import core.data.User;
+import core.data.*;
 import core.command.Command;
 
 public class StartChat implements Command
@@ -14,7 +11,12 @@ public class StartChat implements Command
     {
         user.setState(State.Chat);
         var result = "Вы вошли в анонимный чат\nВыход: /exit";
-        parent.out(new Answer(msg.getId(), result));
+        var answer = new Answer(user.getId(), result);
+        if (user.getId().getPlatform() == Source.Telegram)
+        {
+            answer.addButton("⛔");
+        }
+        parent.out(answer);
         parent.in(new Message(msg.getId(), "search"));
     }
 }

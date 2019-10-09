@@ -1,10 +1,7 @@
 package handlers.chat.instructions;
 
 import core.IO;
-import core.data.Answer;
-import core.data.Message;
-import core.data.State;
-import core.data.User;
+import core.data.*;
 import core.command.Command;
 
 public class Dialog implements Command
@@ -17,6 +14,10 @@ public class Dialog implements Command
         {
             var userTwo = (User)objUser;
             var answer = new Answer(userTwo.getId(), msg.getText());
+            if (user.getId().getPlatform() == Source.Telegram)
+            {
+                answer.addButton("⛔");
+            }
             parent.out(answer);
         }
     }

@@ -9,6 +9,9 @@ import org.json.JSONObject;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardRemove;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.io.IOException;
@@ -17,12 +20,15 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class TelegramBot extends TelegramLongPollingBot
 {
     private IO handler;
     private String name;
     private String token;
+    private HashMap<String, String> emoji = new HashMap<>();
     private static final Path configPath = Paths.get(System.getProperty("user.dir") + "\\src\\platforms\\telegram\\config.json");
 
     public TelegramBot(IO handler)
@@ -31,6 +37,13 @@ public class TelegramBot extends TelegramLongPollingBot
         var config = loadConfig();
         name = config.getString("Name");
         token = config.getString("Token");
+        emoji.put("\uD83E\uDDE0", "/startquiz");
+        emoji.put("\uD83D\uDE48", "/startchat");
+        emoji.put("⛔", "/exit");
+        emoji.put("\uD83D\uDD0E", "/search");
+        emoji.put("❓", "/help");
+        emoji.put("\uD83D\uDE80", "/start");
+
     }
 
     private JSONObject loadConfig()
@@ -56,8 +69,7 @@ public class TelegramBot extends TelegramLongPollingBot
         try
         {
             Files.writeString(configPath, template.toString(), StandardOpenOption.CREATE);
-        }
-        catch (IOException ex)
+        } catch (IOException ex)
         {
             System.out.println("Сan not create file!");
         }
@@ -72,9 +84,13 @@ public class TelegramBot extends TelegramLongPollingBot
             String command = null;
             var text = message.getText();
             var id = message.getChatId().toString();
+            if (emoji.containsKey(text))
+            {
+                text = emoji.get(text);
+            }
             if (text.charAt(0) == '/')
             {
-                command = text.substring(1).replaceAll("\\s","").toLowerCase();
+                command = text.substring(1).replaceAll("\\s", "").toLowerCase();
                 text = null;
             }
             var msg = new Message(new ID(id, Source.Telegram), command, text);
@@ -94,21 +110,31 @@ public class TelegramBot extends TelegramLongPollingBot
         return token;
     }
 
-    public void out(Answer msg)
+    public void out(Answer ans)
     {
-        if (!(msg.getResult().isEmpty() || msg.getResult() == null))
+        var sendMsg = new SendMessage();
+        sendMsg.setChatId(ans.getId().getName());
+        sendMsg.setText(ans.getResult());
+        if (!(ans.getButtons().isEmpty()))
         {
-            var sendMsg = new SendMessage();
-            sendMsg.setChatId(msg.getId().getName());
-            sendMsg.setText(msg.getResult());
-            try
-            {
-                execute(sendMsg);
-            }
-            catch (TelegramApiException e)
-            {
-                System.out.println("Telegram: message did not send");
-            }
+            var a = new ReplyKeyboardMarkup();
+            a.setResizeKeyboard(true);
+            var b = new ArrayList<KeyboardRow>();
+            b.add(ans.getButtons());
+            a.setKeyboard(b);
+            sendMsg.setReplyMarkup(a);
+        } else
+        {
+            var a = new ReplyKeyboardRemove();
+            sendMsg.setReplyMarkup(a);
+        }
+
+        try
+        {
+            execute(sendMsg);
+        } catch (TelegramApiException e)
+        {
+            System.out.println("Telegram: message did not send");
         }
     }
 
