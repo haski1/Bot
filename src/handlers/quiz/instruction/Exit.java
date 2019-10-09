@@ -3,14 +3,14 @@ package handlers.quiz.instruction;
 import core.IO;
 import core.data.Message;
 import core.data.State;
-import core.instruction.BaseInstruction;
+import core.data.User;
+import core.command.Command;
 
-public class Exit extends BaseInstruction
+public class Exit implements Command
 {
     @Override
-    public void execute(Message msg, IO handler)
+    public void execute(Message msg, User user, IO parent)
     {
-        msg.user.state = State.BasicHandler;
-        msg.done = true;
+        user.setState(State.Basic);
     }
 }

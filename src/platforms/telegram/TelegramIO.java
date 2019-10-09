@@ -1,6 +1,7 @@
 package platforms.telegram;
 
 import core.IO;
+import core.data.Answer;
 import core.data.Message;
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
@@ -36,7 +37,7 @@ public class TelegramIO implements IO
     }
 
     @Override
-    public void out(Message msg)
+    public void out(Answer msg)
     {
         bot.out(msg);
     }

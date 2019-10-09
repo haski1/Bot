@@ -1,20 +1,20 @@
 package handlers.quiz.instruction;
 
 import core.IO;
+import core.data.Answer;
 import core.data.Message;
 import core.data.State;
-import core.instruction.BaseInstruction;
+import core.data.User;
+import core.command.Command;
 
-public class StartQuiz extends BaseInstruction
+public class StartQuiz implements Command
 {
     @Override
-    public void execute(Message msg, IO handler)
+    public void execute(Message msg, User user, IO parent)
     {
-        msg.result = "Вы вошли в викторину!\nВыход: /exit";
-        msg.user.state = State.Quiz;
-        msg.done = true;
-        handler.out(msg);
-        msg.command = "question";
-        handler.in(msg);
+        var result = "Вы вошли в викторину!\nВыход: /exit";
+        user.setState(State.Quiz);
+        parent.out(new Answer(msg.getId(), result));
+        parent.in(new Message(msg.getId(), "question"));
     }
 }

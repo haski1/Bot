@@ -1,22 +1,19 @@
 package platforms.terminal;
 
-import core.data.Message;
-import core.data.Source;
-import core.data.State;
-import core.data.User;
+import core.data.*;
 import core.IO;
 
 import java.util.Scanner;
 
 public class TerminalIO implements IO
 {
-    private User user;
+    private ID id;
     private IO handler;
     private Scanner scanner = new Scanner(System.in);
 
     public TerminalIO(IO handler)
     {
-        user = new User("terminal", State.BasicHandler, Source.Terminal);
+        id = new ID("terminal", Source.Terminal);
         this.handler = handler;
     }
 
@@ -27,27 +24,23 @@ public class TerminalIO implements IO
     }
 
     @Override
-    public void out(Message msg)
+    public void out(Answer msg)
     {
-        System.out.println(msg.result);
+        System.out.println(msg.getResult());
     }
 
     public void run()
     {
         while (true)
         {
-            var msg = new Message(user);
             var text = scanner.nextLine();
+            String command = null;
             if (text.charAt(0) == '/')
             {
-                text = text.substring(1).replaceAll("\\s","").toLowerCase();
-                msg.command = text;
+                command = text.substring(1).replaceAll("\\s","").toLowerCase();
+                text = null;
             }
-            else
-            {
-                msg.text = text;
-            }
-
+            var msg = new Message(id, command, text);
             in(msg);
         }
     }

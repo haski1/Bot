@@ -1,22 +1,66 @@
 package platforms.telegram;
 
 import core.IO;
+import core.data.Answer;
+import core.data.ID;
 import core.data.Message;
 import core.data.Source;
-import core.data.State;
-import core.data.User;
+import org.json.JSONObject;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+
 public class TelegramBot extends TelegramLongPollingBot
 {
     private IO handler;
+    private String name;
+    private String token;
+    private static final Path configPath = Paths.get(System.getProperty("user.dir") + "\\src\\platforms\\telegram\\config.json");
 
     public TelegramBot(IO handler)
     {
         this.handler = handler;
+        var config = loadConfig();
+        name = config.getString("Name");
+        token = config.getString("Token");
+    }
+
+    private JSONObject loadConfig()
+    {
+        String configJson = null;
+        try
+        {
+            configJson = Files.readString(configPath, StandardCharsets.UTF_8);
+        } catch (IOException e)
+        {
+            createConfigTemplate();
+            System.out.println("Fill in the config");
+        }
+        JSONObject config = new JSONObject(configJson);
+        return config;
+    }
+
+    private void createConfigTemplate()
+    {
+        var template = new JSONObject();
+        template.append("Name", "");
+        template.append("Token", "");
+        try
+        {
+            Files.writeString(configPath, template.toString(), StandardOpenOption.CREATE);
+        }
+        catch (IOException ex)
+        {
+            System.out.println("Сan not create file!");
+        }
     }
 
     @Override
@@ -25,20 +69,15 @@ public class TelegramBot extends TelegramLongPollingBot
         if (update.hasMessage())
         {
             var message = update.getMessage();
+            String command = null;
             var text = message.getText();
             var id = message.getChatId().toString();
-            var user = new User(id, State.BasicHandler, Source.Telegram);
-            var msg = new Message(user);
-
             if (text.charAt(0) == '/')
             {
-                text = text.substring(1).replaceAll("\\s","").toLowerCase();
-                msg.command = text;
+                command = text.substring(1).replaceAll("\\s","").toLowerCase();
+                text = null;
             }
-            else
-            {
-                msg.text = text;
-            }
+            var msg = new Message(new ID(id, Source.Telegram), command, text);
             handler.in(msg);
         }
     }
@@ -46,22 +85,22 @@ public class TelegramBot extends TelegramLongPollingBot
     @Override
     public String getBotUsername()
     {
-        return BotInfo.name;
+        return name;
     }
 
     @Override
     public String getBotToken()
     {
-        return BotInfo.token;
+        return token;
     }
 
-    public void out(Message msg)
+    public void out(Answer msg)
     {
-        if (msg.result != "" && msg.result != null)
+        if (!(msg.getResult().isEmpty() || msg.getResult() == null))
         {
             var sendMsg = new SendMessage();
-            sendMsg.setChatId(msg.user.id);
-            sendMsg.setText(msg.result);
+            sendMsg.setChatId(msg.getId().getName());
+            sendMsg.setText(msg.getResult());
             try
             {
                 execute(sendMsg);

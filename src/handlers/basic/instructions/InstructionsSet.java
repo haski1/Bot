@@ -1,33 +1,18 @@
 package handlers.basic.instructions;
 
-import core.instruction.Instruction;
+import core.command.BaseCommandsSet;
 import handlers.chat.instructions.StartChat;
 import handlers.quiz.instruction.StartQuiz;
 
-import java.util.HashMap;
-
-public class InstructionsSet extends HashMap<String, Instruction>
+public class InstructionsSet extends BaseCommandsSet
 {
-    private Instruction defaultInstruction;
-
     public InstructionsSet()
     {
         super();
-        defaultInstruction = new Help();
-
+        defaultCommand = new Help();
+        register(defaultCommand);
         register(new Start());
         register(new StartQuiz());
         register(new StartChat());
-        register(defaultInstruction);
-
-    }
-    private void register(Instruction instruction)
-    {
-        this.put(instruction.getName(), instruction);
-    }
-
-    public Instruction getDefault()
-    {
-        return defaultInstruction;
     }
 }

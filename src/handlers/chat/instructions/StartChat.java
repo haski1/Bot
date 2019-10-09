@@ -1,20 +1,20 @@
 package handlers.chat.instructions;
 
 import core.IO;
+import core.data.Answer;
 import core.data.Message;
 import core.data.State;
-import core.instruction.BaseInstruction;
+import core.data.User;
+import core.command.Command;
 
-public class StartChat extends BaseInstruction
+public class StartChat implements Command
 {
     @Override
-    public void execute(Message msg, IO handler)
+    public void execute(Message msg, User user, IO parent)
     {
-        msg.user.state = State.Chat;
-        msg.result = "Вы вошли в анонимный чат\nВыход: /exit";
-        msg.done = true;
-        handler.out(msg);
-        msg.command = "search";
-        handler.in(msg);
+        user.setState(State.Chat);
+        var result = "Вы вошли в анонимный чат\nВыход: /exit";
+        parent.out(new Answer(msg.getId(), result));
+        parent.in(new Message(msg.getId(), "search"));
     }
 }

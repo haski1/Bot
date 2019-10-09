@@ -1,9 +1,11 @@
 package handlers.quiz.instruction;
 
 import core.IO;
+import core.data.Answer;
 import core.data.Message;
 import core.data.State;
-import core.instruction.BaseInstruction;
+import core.data.User;
+import core.command.Command;
 import handlers.quiz.data.QuizData;
 
 import java.io.IOException;
@@ -14,23 +16,25 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class Question extends BaseInstruction
+public class Question implements Command
 {
-    private ArrayList<QuizData> questions = new ArrayList<QuizData>();
+    private ArrayList<QuizData> questions = new ArrayList<>();
+    private boolean error;
 
     public Question()
     {
-        List<String> lines = null;
+        List<String> lines;
         try
         {
             lines = Files.readAllLines(Paths.get(System.getProperty("user.dir")
                     + "\\src\\handlers\\quiz\\data\\questions.txt"), StandardCharsets.UTF_8);
+            for(String line: lines){
+                questions.add(parseLine(line));
+            }
         } catch (IOException e)
         {
+            error = true;
             System.out.println("Quiz: questions isn\'t uploaded");
-        }
-        for(String line: lines){
-            questions.add(parseLine(line));
         }
     }
 
@@ -41,12 +45,18 @@ public class Question extends BaseInstruction
     }
 
     @Override
-    public void execute(Message msg, IO handler)
+    public void execute(Message msg, User user, IO parent)
     {
+        if (error)
+        {
+            var result = "Не удалось загрузить список вопросов\nВыход /exit";
+            parent.out(new Answer(msg.getId(), result));
+            return;
+        }
+
         var question = questions.get(new Random().nextInt(questions.size()));
-        msg.user.data.put(State.Quiz, question);
-        msg.result = question.question;
-        msg.done = true;
-        handler.out(msg);
+        user.setData(State.Quiz, question);
+        var result = question.question;
+        parent.out(new Answer(msg.getId(), result));
     }
 }

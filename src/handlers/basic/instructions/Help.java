@@ -1,16 +1,16 @@
 package handlers.basic.instructions;
 
 import core.IO;
+import core.data.Answer;
 import core.data.Message;
-import core.instruction.BaseInstruction;
+import core.data.User;
+import core.command.Command;
 
-public class Help extends BaseInstruction
+public class Help implements Command
 {
-    @Override
-    public void execute(Message msg, IO handler)
+    public void execute(Message msg, User user, IO parent)
     {
-        msg.result = "Наберите команду /start чтобы узнать больше!";
-        msg.done = true;
-        handler.out(msg);
+        var result = "Наберите команду /start чтобы узнать больше!";
+        parent.out(new Answer(msg.getId(), result));
     }
 }

@@ -3,19 +3,20 @@ package handlers.chat.instructions;
 import core.IO;
 import core.data.Message;
 import core.data.State;
-import core.instruction.BaseInstruction;
+import core.data.User;
+import core.command.Command;
 
-public class Exit extends BaseInstruction
+public class Exit implements Command
 {
     @Override
-    public void execute(Message msg, IO handler)
+    public void execute(Message msg, User user, IO parent)
     {
-        msg.user.state = State.BasicHandler;
-        msg.done = true;
-        if (Search.isSearching(msg.user))
+        user.setState(State.Basic);
+
+        if (Search.isSearching(user))
         {
-            Search.removeFromSearch(msg.user);
+            Search.removeFromSearch(user);
         }
-        Search.nonunion(msg.user, handler);
+        Search.nonunion(user, parent);
     }
 }

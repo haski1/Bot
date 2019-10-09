@@ -4,21 +4,14 @@ import java.util.HashMap;
 
 public class User
 {
-    public String id;
-    public State state;
-    public Source platform;
-    public HashMap<State, Object> data = new HashMap<>();
+    private ID id;
+    private State state;
+    private HashMap<State, Object> data = new HashMap<>();
 
-    public User()
-    {
-
-    }
-
-    public User(String id, State state, Source platform)
+    public User(ID id)
     {
         this.id = id;
-        this.state = state;
-        this.platform = platform;
+        this.state = State.Basic;
     }
 
     @Override
@@ -26,12 +19,37 @@ public class User
     {
         if (!(obj instanceof User))
             return false;
-        return ((User) obj).id.equals(id) && ((User) obj).platform.equals(platform);
+        return ((User) obj).id.equals(id);
     }
 
     @Override
     public int hashCode()
     {
-        return (id + platform).hashCode();
+        return id.hashCode();
+    }
+
+    public ID getId()
+    {
+        return id;
+    }
+
+    public State getState()
+    {
+        return state;
+    }
+
+    public void setState(State state)
+    {
+        this.state = state;
+    }
+
+    public Object getData(State key)
+    {
+        return data.get(key);
+    }
+
+    public void setData(State key, Object value)
+    {
+        data.put(key, value);
     }
 }

@@ -1,65 +1,61 @@
 package handlers.basic;
 
 import core.IO;
-import core.data.Message;
-import core.data.Source;
-import core.data.User;
+import core.data.*;
 import handlers.basic.handlers.HandlersSet;
 import handlers.basic.instructions.InstructionsSet;
 import platforms.PlatformsSet;
 import platforms.terminal.TerminalIO;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
 public class BasicHandler implements IO
 {
     private InstructionsSet instructions;
     private HandlersSet handlers;
     private PlatformsSet platforms;
-    private List<User> users;
+    private HashMap<ID, User> users;
 
     public BasicHandler()
     {
         platforms = new PlatformsSet(this);
-        handlers = new HandlersSet(this);
+        users = new HashMap<>();
+        handlers = new HandlersSet(this, users);
         instructions = new InstructionsSet();
-        users = new ArrayList<>();
+
     }
 
     @Override
     public void in(Message msg)
     {
-        if (users.contains(msg.user))
+        if (!(users.containsKey(msg.getId())))
         {
-            var index = users.indexOf(msg.user);
-            msg.user = users.get(index);
-        } else
-        {
-            users.add(msg.user);
+            users.put(msg.getId(), new User(msg.getId()));
         }
-        if (handlers.containsKey(msg.user.state))
+        var user = users.get(msg.getId());
+        if (handlers.containsKey(user.getState()))
         {
-            (handlers.get(msg.user.state)).in(msg);
-        } else
+            (handlers.get(user.getState())).in(msg);
+            return;
+        }
+        else
         {
-            var instruction = instructions.get(msg.command);
-            if (instruction != null)
+            if (instructions.containsKey(msg.getCommand()))
             {
-                instruction.execute(msg, this);
+                instructions.get(msg.getCommand()).execute(msg, user, this);
             }
             else
             {
-                instructions.getDefault().execute(msg, this);
+                instructions.getDefault().execute(msg, user, this);
             }
         }
     }
 
     @Override
-    public void out(Message msg)
+    public void out(Answer answer)
     {
-        var platform = platforms.get(msg.user.platform);
-        platform.out(msg);
+        var platform = platforms.get(answer.getId().getPlatform());
+        platform.out(answer);
     }
 
     public void run()

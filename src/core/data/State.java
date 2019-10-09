@@ -2,7 +2,7 @@ package core.data;
 
 public enum State
 {
-    BasicHandler,
+    Basic,
     Quiz,
     Chat
 }

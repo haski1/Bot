@@ -1,86 +1,83 @@
 package handlers.chat.instructions;
 
 import core.IO;
+import core.data.Answer;
 import core.data.Message;
 import core.data.State;
 import core.data.User;
-import core.instruction.BaseInstruction;
+import core.command.Command;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
 
-public class Search extends BaseInstruction
+public class Search implements Command
 {
     private static Deque<User> freeUsers = new ArrayDeque<>();
 
-    public static void addToSearch(User user)
+    private static void addToSearch(User user)
     {
         freeUsers.addLast(user);
     }
 
-    public static void removeFromSearch(User user)
+    static void removeFromSearch(User user)
     {
         freeUsers.remove(user);
     }
 
-    public static boolean isSearching(User user)
+    static boolean isSearching(User user)
     {
         return freeUsers.contains(user);
     }
 
-    public Search()
+    private void union(User first, User second, IO handler)
     {
+        first.setData(State.Chat, second);
+        second.setData(State.Chat, first);
+        var result = "Собеседник найден!\n(Предепреджение: вы общаетесь с реальным человеком!)";
+
+        var ansToFirst = new Answer(first.getId(), result);
+        var ansToSecond = new Answer(second.getId(), result);
+
+        handler.out(ansToFirst);
+        handler.out(ansToSecond);
+    }
+
+    public static void nonunion(User user, IO handler)
+    {
+        var objUser = user.getData(State.Chat);
+        if (objUser != null)
+        {
+            var userTwo = (User) objUser;
+            userTwo.setData(State.Chat, null);
+            user.setData(State.Chat, null);
+
+            var result = "Собеседник вышел\n Для поиска напишите команду /search";
+            var answer = new Answer(userTwo.getId(), result);
+
+            handler.out(answer);
+        }
     }
 
     @Override
-    public void execute(Message msg, IO handler)
+    public void execute(Message msg, User user, IO parent)
     {
-        if (msg.user.data.get(State.Chat) != null)
+        if (user.getData(State.Chat) != null)
         {
-            nonunion(msg.user, handler);
+            nonunion(user, parent);
         }
-        if (isSearching(msg.user))
+        if (isSearching(user))
         {
             return;
         }
-        addToSearch(msg.user);
-        msg.result = "Ищем собеседника...";
-        msg.done = true;
-        handler.out(msg);
+        addToSearch(user);
+        var result = "Ищем собеседника...";
+        parent.out(new Answer(msg.getId(), result));
 
         if (freeUsers.size() >= 2)
         {
             var first = freeUsers.pop();
             var second = freeUsers.pop();
-            union(first, second, handler);
+            union(first, second, parent);
         }
     }
-
-    private void union(User first, User second, IO handler)
-    {
-        first.data.put(State.Chat, second);
-        second.data.put(State.Chat, first);
-        var result = "Собеседник найден!\n(Предепреджение: вы общаетесь с реальным человеком!)";
-
-        var msgToFirst = new Message(first);
-        var msgToSecond = new Message(second);
-        msgToFirst.result = msgToSecond.result = result;
-        handler.out(msgToFirst);
-        handler.out(msgToSecond);
-    }
-
-    public static void nonunion(User user, IO handler)
-    {
-        var userTwo = user.data.get(State.Chat);
-        if (userTwo != null)
-        {
-            ((User)userTwo).data.put(State.Chat, null);
-            user.data.put(State.Chat, null);
-            var result = "Собеседник вышел\n Для поиска напишите команду /search";
-            var answer = new Message((User)userTwo);
-            answer.result = result;
-            handler.out(answer);
-        }
-    }
-
 }
