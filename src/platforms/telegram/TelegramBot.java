@@ -13,6 +13,8 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMar
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -28,7 +30,7 @@ public class TelegramBot extends TelegramLongPollingBot
     private String name;
     private String token;
     private HashMap<String, String> emoji = new HashMap<>();
-    private static final Path configPath = Paths.get("files/config.json");
+    private static final Path configPath = Paths.get("resources/config.json");
 
     public TelegramBot(IO handler)
     {
@@ -36,6 +38,11 @@ public class TelegramBot extends TelegramLongPollingBot
         var config = loadConfig();
         name = config.getString("Name");
         token = config.getString("Token");
+        if (name.isEmpty() || token.isEmpty())
+        {
+            System.out.println("Invalid name and token");
+            System.exit(0);
+        }
         associateEmoji();
     }
 
@@ -49,6 +56,7 @@ public class TelegramBot extends TelegramLongPollingBot
         {
             createConfigTemplate();
             System.out.println("Fill in the config");
+            System.exit(0);
         }
         return new JSONObject(configJson);
     }
@@ -67,14 +75,17 @@ public class TelegramBot extends TelegramLongPollingBot
     private void createConfigTemplate()
     {
         var template = new JSONObject();
-        template.append("Name", "");
-        template.append("Token", "");
+        template.put("Name", "");
+        template.put("Token", "");
+
         try
         {
-            Files.writeString(configPath, template.toString(), StandardOpenOption.CREATE);
+            Files.createFile(configPath);
+            Files.writeString(configPath, template.toString(), StandardOpenOption.WRITE);
         } catch (IOException ex)
         {
             System.out.println("Сan not create file!");
+            System.exit(0);
         }
     }
 

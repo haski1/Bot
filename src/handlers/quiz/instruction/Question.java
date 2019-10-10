@@ -23,7 +23,7 @@ public class Question implements Command
         List<String> lines;
         try
         {
-            lines = Files.readAllLines(Paths.get("files/questions.txt"), StandardCharsets.UTF_8);
+            lines = Files.readAllLines(Paths.get("resources/questions.txt"), StandardCharsets.UTF_8);
             for(String line: lines){
                 questions.add(parseLine(line));
             }
