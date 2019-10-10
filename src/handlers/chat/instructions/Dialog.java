@@ -12,7 +12,7 @@ public class Dialog implements Command
         var objUser = user.getData(State.Chat);
         if (objUser != null)
         {
-            var userTwo = (User)objUser;
+            var userTwo = (User) objUser;
             parent.out(new Answer(userTwo.getId(), msg.getText()));
         }
     }

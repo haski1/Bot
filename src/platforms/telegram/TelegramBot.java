@@ -10,7 +10,6 @@ import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardRemove;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
@@ -29,7 +28,7 @@ public class TelegramBot extends TelegramLongPollingBot
     private String name;
     private String token;
     private HashMap<String, String> emoji = new HashMap<>();
-    private static final Path configPath = Paths.get(System.getProperty("user.dir") + "\\src\\platforms\\telegram\\config.json");
+    private static final Path configPath = Paths.get("files/config.json");
 
     public TelegramBot(IO handler)
     {

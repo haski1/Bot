@@ -1,7 +1,6 @@
 package handlers.chat.instructions;
 
 import core.command.BaseCommandsSet;
-import core.command.Command;
 
 public class ChatInstructionSet extends BaseCommandsSet
 {

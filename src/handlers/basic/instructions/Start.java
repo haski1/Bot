@@ -1,4 +1,5 @@
 package handlers.basic.instructions;
+
 import core.IO;
 import core.data.Answer;
 import core.data.Message;
@@ -11,7 +12,7 @@ public class Start implements Command
     public void execute(Message msg, User user, IO parent)
     {
         var result = "Привет! \nЭто iwanttoseebot\nПиши /startquiz чтобы проиграть в викторину!\n" +
-                     "Пиши /startchat зайти в анонимный чат!";
+                "Пиши /startchat зайти в анонимный чат!";
         var answer = new Answer(msg.getId(), result);
         if (user.getId().getPlatform() == Source.Telegram)
         {

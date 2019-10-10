@@ -36,14 +36,12 @@ public class BasicHandler implements IO
         if (handlers.containsKey(user.getState()))
         {
             (handlers.get(user.getState())).in(msg);
-        }
-        else
+        } else
         {
             if (instructions.containsKey(msg.getCommand()))
             {
                 instructions.get(msg.getCommand()).execute(msg, user, this);
-            }
-            else
+            } else
             {
                 instructions.getDefault().execute(msg, user, this);
             }
