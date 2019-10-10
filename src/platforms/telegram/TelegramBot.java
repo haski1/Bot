@@ -35,9 +35,8 @@ public class TelegramBot extends TelegramLongPollingBot
     public TelegramBot(IO handler)
     {
         this.handler = handler;
-        var config = loadConfig();
-        name = config.getString("Name");
-        token = config.getString("Token");
+        name = TelegramData.name;
+        token = TelegramData.token;
         if (name.isEmpty() || token.isEmpty())
         {
             System.out.println("Invalid name and token");
