@@ -37,13 +37,7 @@ public class TelegramBot extends TelegramLongPollingBot
         var config = loadConfig();
         name = config.getString("Name");
         token = config.getString("Token");
-        emoji.put("\uD83E\uDDE0", "/startquiz");
-        emoji.put("\uD83D\uDE48", "/startchat");
-        emoji.put("⛔", "/exit");
-        emoji.put("\uD83D\uDD0E", "/search");
-        emoji.put("❓", "/help");
-        emoji.put("\uD83D\uDE80", "/start");
-
+        associateEmoji();
     }
 
     private JSONObject loadConfig()
@@ -57,9 +51,19 @@ public class TelegramBot extends TelegramLongPollingBot
             createConfigTemplate();
             System.out.println("Fill in the config");
         }
-        JSONObject config = new JSONObject(configJson);
-        return config;
+        return new JSONObject(configJson);
     }
+
+    private void associateEmoji()
+    {
+        emoji.put("\uD83E\uDDE0", "/startquiz");
+        emoji.put("\uD83D\uDE48", "/startchat");
+        emoji.put("\uD83D\uDD0E", "/search");
+        emoji.put("\uD83D\uDE80", "/start");
+        emoji.put("⛔", "/exit");
+        emoji.put("❓", "/help");
+    }
+
 
     private void createConfigTemplate()
     {
@@ -117,16 +121,12 @@ public class TelegramBot extends TelegramLongPollingBot
         sendMsg.setText(ans.getResult());
         if (!(ans.getButtons().isEmpty()))
         {
-            var a = new ReplyKeyboardMarkup();
-            a.setResizeKeyboard(true);
-            var b = new ArrayList<KeyboardRow>();
-            b.add(ans.getButtons());
-            a.setKeyboard(b);
-            sendMsg.setReplyMarkup(a);
-        } else
-        {
-            var a = new ReplyKeyboardRemove();
-            sendMsg.setReplyMarkup(a);
+            var markup = new ReplyKeyboardMarkup();
+            markup.setResizeKeyboard(true);
+            var rows = new ArrayList<KeyboardRow>();
+            rows.add(ans.getButtons());
+            markup.setKeyboard(rows);
+            sendMsg.setReplyMarkup(markup);
         }
 
         try

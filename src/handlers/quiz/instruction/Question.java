@@ -53,12 +53,6 @@ public class Question implements Command
 
         var question = questions.get(new Random().nextInt(questions.size()));
         user.setData(State.Quiz, question);
-        var result = question.question;
-        var answer = new Answer(msg.getId(), result);
-        if (user.getId().getPlatform() == Source.Telegram)
-        {
-            answer.addButton("⛔");
-        }
-        parent.out(answer);
+        parent.out(new Answer(msg.getId(), question.question));
     }
 }

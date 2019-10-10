@@ -21,11 +21,6 @@ public class Check implements Command
         {
             result = "Не верно";
         }
-        var answer = new Answer(msg.getId(), result);
-        if (user.getId().getPlatform() == Source.Telegram)
-        {
-            answer.addButton("⛔");
-        }
-        parent.out(answer);
+        parent.out(new Answer(msg.getId(), result));
     }
 }

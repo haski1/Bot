@@ -34,14 +34,6 @@ public class Search implements Command
 
         var ansToFirst = new Answer(first.getId(), result);
         var ansToSecond = new Answer(second.getId(), result);
-        if (ansToFirst.getId().getPlatform() == Source.Telegram)
-        {
-            ansToFirst.addButton("⛔");
-        }
-        if (ansToSecond.getId().getPlatform() == Source.Telegram)
-        {
-            ansToSecond.addButton("⛔");
-        }
         handler.out(ansToFirst);
         handler.out(ansToSecond);
     }
@@ -55,7 +47,7 @@ public class Search implements Command
             userTwo.setData(State.Chat, null);
             user.setData(State.Chat, null);
 
-            var result = "Собеседник вышел\n Для поиска напишите команду /search";
+            var result = "Собеседник вышел\n Для поиска нового собеседника напишите команду /search";
             var answer = new Answer(userTwo.getId(), result);
             if (user.getId().getPlatform() == Source.Telegram)
             {

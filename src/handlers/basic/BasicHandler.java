@@ -36,7 +36,6 @@ public class BasicHandler implements IO
         if (handlers.containsKey(user.getState()))
         {
             (handlers.get(user.getState())).in(msg);
-            return;
         }
         else
         {
