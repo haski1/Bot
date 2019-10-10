@@ -35,29 +35,9 @@ public class TelegramBot extends TelegramLongPollingBot
     public TelegramBot(IO handler)
     {
         this.handler = handler;
-        name = TelegramData.name;
-        token = TelegramData.token;
-        if (name.isEmpty() || token.isEmpty())
-        {
-            System.out.println("Invalid name and token");
-            System.exit(0);
-        }
+        name = System.getenv("NAME");
+        token = System.getenv("TOKEN");
         associateEmoji();
-    }
-
-    private JSONObject loadConfig()
-    {
-        String configJson = null;
-        try
-        {
-            configJson = Files.readString(configPath, StandardCharsets.UTF_8);
-        } catch (IOException e)
-        {
-            createConfigTemplate();
-            System.out.println("Fill in the config");
-            System.exit(0);
-        }
-        return new JSONObject(configJson);
     }
 
     private void associateEmoji()
@@ -68,24 +48,6 @@ public class TelegramBot extends TelegramLongPollingBot
         emoji.put("\uD83D\uDE80", "/start");
         emoji.put("⛔", "/exit");
         emoji.put("❓", "/help");
-    }
-
-
-    private void createConfigTemplate()
-    {
-        var template = new JSONObject();
-        template.put("Name", "");
-        template.put("Token", "");
-
-        try
-        {
-            Files.createFile(configPath);
-            Files.writeString(configPath, template.toString(), StandardOpenOption.WRITE);
-        } catch (IOException ex)
-        {
-            System.out.println("Сan not create file!");
-            System.exit(0);
-        }
     }
 
     @Override
