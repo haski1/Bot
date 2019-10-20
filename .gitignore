@@ -27,4 +27,4 @@ hs_err_pid*
 .idea/*
 .out/*
 .bin/*
-!api/telegram/telegrambots-4.4.0-jar-with-dependencies.jar
+!api/telegrambots-4.4.0.1-jar-with-dependencies.jar
