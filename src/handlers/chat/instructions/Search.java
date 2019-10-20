@@ -49,11 +49,8 @@ public class Search implements Command
 
             var result = "Собеседник вышел\n Для поиска нового собеседника напишите команду /search";
             var answer = new Answer(userTwo.getId(), result);
-            if (user.getId().getPlatform() == Source.Telegram)
-            {
-                answer.addButton("\uD83D\uDD0E");
-                answer.addButton("⛔");
-            }
+            answer.addButton(Emoji.Search.getCode());
+            answer.addButton(Emoji.Stop.getCode());
             handler.out(answer);
         }
     }
@@ -72,10 +69,7 @@ public class Search implements Command
         addToSearch(user);
         var result = "Ищем собеседника...";
         var answer = new Answer(user.getId(), result);
-        if (user.getId().getPlatform() == Source.Telegram)
-        {
-            answer.addButton("⛔");
-        }
+        answer.addButton(Emoji.Stop.getCode());
         parent.out(answer);
 
 

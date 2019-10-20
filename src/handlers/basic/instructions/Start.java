@@ -1,10 +1,7 @@
 package handlers.basic.instructions;
 
 import core.IO;
-import core.data.Answer;
-import core.data.Message;
-import core.data.Source;
-import core.data.User;
+import core.data.*;
 import core.command.Command;
 
 public class Start implements Command
@@ -14,11 +11,8 @@ public class Start implements Command
         var result = "Привет! \nЭто iwanttoseebot\nПиши /startquiz чтобы проиграть в викторину!\n" +
                 "Пиши /startchat зайти в анонимный чат!";
         var answer = new Answer(msg.getId(), result);
-        if (user.getId().getPlatform() == Source.Telegram)
-        {
-            answer.addButton("\uD83E\uDDE0");
-            answer.addButton("\uD83D\uDE48");
-        }
+        answer.addButton(Emoji.Chat.getCode());
+        answer.addButton(Emoji.Quiz.getCode());
         parent.out(answer);
     }
 }

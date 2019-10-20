@@ -1,10 +1,7 @@
 package handlers.basic.instructions;
 
 import core.IO;
-import core.data.Answer;
-import core.data.Message;
-import core.data.Source;
-import core.data.User;
+import core.data.*;
 import core.command.Command;
 
 public class Help implements Command
@@ -13,10 +10,7 @@ public class Help implements Command
     {
         var result = "Наберите команду /start чтобы узнать больше!";
         var answer = new Answer(msg.getId(), result);
-        if (user.getId().getPlatform() == Source.Telegram)
-        {
-            answer.addButton("\uD83D\uDE80");
-        }
+        answer.addButton(Emoji.Help.getCode());
         parent.out(answer);
     }
 }

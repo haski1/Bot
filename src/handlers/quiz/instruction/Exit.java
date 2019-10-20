@@ -11,10 +11,7 @@ public class Exit implements Command
     {
         user.setState(State.Basic);
         var answer = new Answer(msg.getId(), "Вы вышли из викторины");
-        if (user.getId().getPlatform() == Source.Telegram)
-        {
-            answer.addButton("\uD83D\uDE80");
-        }
+        answer.addButton(Emoji.Start.getCode());
         parent.out(answer);
     }
 }

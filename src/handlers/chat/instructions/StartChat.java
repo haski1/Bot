@@ -12,11 +12,8 @@ public class StartChat implements Command
         user.setState(State.Chat);
         var result = "Вы вошли в анонимный чат\nДля поиска собеседника напиши команду /search\nВыход: /exit";
         var answer = new Answer(user.getId(), result);
-        if (user.getId().getPlatform() == Source.Telegram)
-        {
-            answer.addButton("\uD83D\uDD0E");
-            answer.addButton("⛔");
-        }
+        answer.addButton(Emoji.Search.getCode());
+        answer.addButton(Emoji.Stop.getCode());
         parent.out(answer);
     }
 }

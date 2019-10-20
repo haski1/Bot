@@ -12,10 +12,7 @@ public class StartQuiz implements Command
         var result = "Вы вошли в викторину!\nВыход: /exit";
         user.setState(State.Quiz);
         var answer = new Answer(user.getId(), result);
-        if (user.getId().getPlatform() == Source.Telegram)
-        {
-            answer.addButton("⛔");
-        }
+        answer.addButton(Emoji.Stop.getCode());
         parent.out(answer);
         parent.in(new Message(msg.getId(), "question"));
     }

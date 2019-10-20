@@ -1,23 +1,17 @@
 package platforms.telegram;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import core.IO;
-import core.data.Answer;
-import core.data.ID;
-import core.data.Message;
-import core.data.Source;
-import org.json.JSONObject;
+import core.data.*;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import java.io.File;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 import java.util.Arrays;
 import java.util.HashMap;
 
@@ -27,47 +21,41 @@ public class TelegramBot extends TelegramLongPollingBot
     private String name;
     private String token;
     private HashMap<String, String> emoji = new HashMap<>();
-    private static final Path configPath = Paths.get("resources/config.json");
 
-    public TelegramBot(IO handler)
+    public TelegramBot(IO handler, File file)
     {
         this.handler = handler;
-        var config = loadConfig();
-        name = config.getString("Name");
-        token = config.getString("Token");
+        var config = loadConfig(file);
+        name = config.name;
+        token = config.token;
         if (name.isEmpty() || token.isEmpty())
         {
             System.out.println("Invalid name and token");
             System.exit(0);
         }
-        associateEmoji();
+        registerEmoji();
     }
 
-    private JSONObject loadConfig()
+    private BotInfo loadConfig(File file)
     {
-        String configJson = null;
         try
         {
-            configJson = Files.readString(configPath, StandardCharsets.UTF_8);
-        } catch (IOException e)
+            return new ObjectMapper().readValue(file, BotInfo.class);
+        }
+        catch (IOException e)
         {
-            createConfigTemplate();
+            createConfigTemplate(file);
             System.out.println("Fill in the config");
             System.exit(0);
         }
-        return new JSONObject(configJson);
+        return new BotInfo();
     }
 
-    private void createConfigTemplate()
+    private void createConfigTemplate(File file)
     {
-        var template = new JSONObject();
-        template.put("Name", "");
-        template.put("Token", "");
-
         try
         {
-            Files.createFile(configPath);
-            Files.writeString(configPath, template.toString(), StandardOpenOption.WRITE);
+            new ObjectMapper().writeValue(file, new BotInfo());
         } catch (IOException ex)
         {
             System.out.println("Сan not create file!");
@@ -75,14 +63,12 @@ public class TelegramBot extends TelegramLongPollingBot
         }
     }
 
-    private void associateEmoji()
+    private void registerEmoji()
     {
-        emoji.put("\uD83E\uDDE0", "/startquiz");
-        emoji.put("\uD83D\uDE48", "/startchat");
-        emoji.put("\uD83D\uDD0E", "/search");
-        emoji.put("\uD83D\uDE80", "/start");
-        emoji.put("⛔", "/exit");
-        emoji.put("❓", "/help");
+        for (var item :Emoji.values())
+        {
+            emoji.put(item.getCode(), item.getCommand());
+        }
     }
 
     @Override
@@ -134,7 +120,9 @@ public class TelegramBot extends TelegramLongPollingBot
         {
             var markup = new ReplyKeyboardMarkup();
             markup.setResizeKeyboard(true);
-            var rows = Arrays.asList(ans.getButtons());
+            var row = new KeyboardRow();
+            row.addAll(ans.getButtons());
+            var rows = Arrays.asList(row);
             markup.setKeyboard(rows);
             sendMsg.setReplyMarkup(markup);
         }

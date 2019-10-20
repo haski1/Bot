@@ -5,6 +5,7 @@ import core.data.Source;
 import platforms.telegram.TelegramIO;
 import platforms.terminal.TerminalIO;
 
+import java.io.File;
 import java.util.HashMap;
 
 public class PlatformsSet extends HashMap<Source, IO>
@@ -13,6 +14,6 @@ public class PlatformsSet extends HashMap<Source, IO>
     {
         super();
         this.put(Source.Terminal, new TerminalIO(handler));
-        this.put(Source.Telegram, new TelegramIO(handler));
+        this.put(Source.Telegram, new TelegramIO(handler, new File("resources/config.json")));
     }
 }

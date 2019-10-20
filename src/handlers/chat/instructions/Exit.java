@@ -17,10 +17,7 @@ public class Exit implements Command
         }
         Search.nonunion(user, parent);
         var answer = new Answer(msg.getId(), "Вы вышли из чата");
-        if (user.getId().getPlatform() == Source.Telegram)
-        {
-            answer.addButton("\uD83D\uDE80");
-        }
+        answer.addButton(Emoji.Start.getCode());
         parent.out(answer);
     }
 }

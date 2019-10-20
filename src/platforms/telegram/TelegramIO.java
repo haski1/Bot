@@ -7,17 +7,19 @@ import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 
+import java.io.File;
+
 public class TelegramIO implements IO
 {
     private IO handler;
     private TelegramBot bot;
 
-    public TelegramIO(IO handler)
+    public TelegramIO(IO handler, File file)
     {
         this.handler = handler;
         ApiContextInitializer.init();
 
-        this.bot = new TelegramBot(this);
+        this.bot = new TelegramBot(this, file);
         var api = new TelegramBotsApi();
 
         try
