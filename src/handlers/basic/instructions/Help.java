@@ -10,7 +10,7 @@ public class Help implements Command
     {
         var result = "Наберите команду /start чтобы узнать больше!";
         var answer = new Answer(msg.getId(), result);
-        answer.addButton(Emoji.Help.getCode());
+        answer.addButton(Emoji.Start.getCode());
         parent.out(answer);
     }
 }
