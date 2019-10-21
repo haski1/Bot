@@ -3,6 +3,7 @@ package handlers.chat.instructions;
 import core.IO;
 import core.data.*;
 import core.command.Command;
+import core.data.Module;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -28,8 +29,8 @@ public class Search implements Command
 
     private void union(User first, User second, IO handler)
     {
-        first.setData(State.Chat, second);
-        second.setData(State.Chat, first);
+        first.setData(Module.Chat, second);
+        second.setData(Module.Chat, first);
         var result = "Собеседник найден!\n(Предепреджение: вы общаетесь с реальным человеком!)";
 
         var ansToFirst = new Answer(first.getId(), result);
@@ -40,12 +41,12 @@ public class Search implements Command
 
     public static void nonunion(User user, IO handler)
     {
-        var objUser = user.getData(State.Chat);
+        var objUser = user.getData(Module.Chat);
         if (objUser != null)
         {
             var userTwo = (User) objUser;
-            userTwo.setData(State.Chat, null);
-            user.setData(State.Chat, null);
+            userTwo.setData(Module.Chat, null);
+            user.setData(Module.Chat, null);
 
             var result = "Собеседник вышел\n Для поиска нового собеседника напишите команду /search";
             var answer = new Answer(userTwo.getId(), result);
@@ -58,7 +59,7 @@ public class Search implements Command
     @Override
     public void execute(Message msg, User user, IO parent)
     {
-        if (user.getData(State.Chat) != null)
+        if (user.getData(Module.Chat) != null)
         {
             nonunion(user, parent);
         }

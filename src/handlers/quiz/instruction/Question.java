@@ -1,57 +1,30 @@
 package handlers.quiz.instruction;
 
 import core.IO;
-import core.data.*;
 import core.command.Command;
+import core.data.Answer;
+import core.data.Message;
+import core.data.Module;
+import core.data.User;
 import handlers.quiz.data.QuizData;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public class Question implements Command
 {
-    private ArrayList<QuizData> questions = new ArrayList<>();
-    private boolean error;
+    private List<QuizData> questions;
 
-    public Question()
+    public Question(List<QuizData> questions)
     {
-        List<String> lines;
-        try
-        {
-            lines = Files.readAllLines(Paths.get("resources/questions.txt"), StandardCharsets.UTF_8);
-            for(String line: lines){
-                questions.add(parseLine(line));
-            }
-        } catch (IOException e)
-        {
-            error = true;
-            System.out.println("Quiz: questions isn\'t uploaded");
-        }
-    }
-
-    public QuizData parseLine(String line)
-    {
-        var paths = line.split("/");
-        return new QuizData(paths[0], paths[1]);
+        this.questions = questions;
     }
 
     @Override
     public void execute(Message msg, User user, IO parent)
     {
-        if (error)
-        {
-            var result = "Не удалось загрузить список вопросов\nВыход /exit";
-            parent.out(new Answer(msg.getId(), result));
-            return;
-        }
-
         var question = questions.get(new Random().nextInt(questions.size()));
-        user.setData(State.Quiz, question);
+        user.setData(Module.Quiz, question);
         parent.out(new Answer(msg.getId(), question.question));
     }
 }

@@ -12,7 +12,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 
 public class TelegramBot extends TelegramLongPollingBot
@@ -22,8 +22,7 @@ public class TelegramBot extends TelegramLongPollingBot
     private String token;
     private HashMap<String, String> emoji = new HashMap<>();
 
-    public TelegramBot(IO handler, File file)
-    {
+    public TelegramBot(IO handler, File file) throws IOException {
         this.handler = handler;
         var config = loadConfig(file);
         name = config.name;
@@ -36,8 +35,7 @@ public class TelegramBot extends TelegramLongPollingBot
         registerEmoji();
     }
 
-    private BotInfo loadConfig(File file)
-    {
+    private BotInfo loadConfig(File file) throws IOException {
         try
         {
             return new ObjectMapper().readValue(file, BotInfo.class);
@@ -45,21 +43,18 @@ public class TelegramBot extends TelegramLongPollingBot
         catch (IOException e)
         {
             createConfigTemplate(file);
-            System.out.println("Fill in the config");
-            System.exit(0);
+            throw new IOException("Error: Fill in the configuration file");
         }
-        return new BotInfo();
     }
 
-    private void createConfigTemplate(File file)
-    {
+    private void createConfigTemplate(File file) throws IOException {
         try
         {
             new ObjectMapper().writeValue(file, new BotInfo());
-        } catch (IOException ex)
+        }
+        catch (IOException ex)
         {
-            System.out.println("Сan not create file!");
-            System.exit(0);
+            throw new IOException("Error: Сan not create file!");
         }
     }
 
@@ -80,7 +75,7 @@ public class TelegramBot extends TelegramLongPollingBot
             String command;
             var text = message.getText();
             var id = message.getChatId().toString();
-            ID userId = new ID(id, Source.Telegram);
+            ID userId = new ID(id, Platform.Telegram);
             if (emoji.containsKey(text))
             {
                 text = emoji.get(text);
@@ -122,7 +117,7 @@ public class TelegramBot extends TelegramLongPollingBot
             markup.setResizeKeyboard(true);
             var row = new KeyboardRow();
             row.addAll(ans.getButtons());
-            var rows = Arrays.asList(row);
+            var rows = Collections.singletonList(row);
             markup.setKeyboard(rows);
             sendMsg.setReplyMarkup(markup);
         }

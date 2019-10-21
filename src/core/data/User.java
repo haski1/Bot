@@ -5,13 +5,13 @@ import java.util.HashMap;
 public class User
 {
     private ID id;
-    private State state;
-    private HashMap<State, Object> data = new HashMap<>();
+    private Module module;
+    private HashMap<Module, Object> data = new HashMap<>();
 
     public User(ID id)
     {
         this.id = id;
-        this.state = State.Basic;
+        this.module = Module.Basic;
     }
 
     @Override
@@ -33,22 +33,22 @@ public class User
         return id;
     }
 
-    public State getState()
+    public Module getModule()
     {
-        return state;
+        return module;
     }
 
-    public void setState(State state)
+    public void setModule(Module module)
     {
-        this.state = state;
+        this.module = module;
     }
 
-    public Object getData(State key)
+    public Object getData(Module key)
     {
         return data.get(key);
     }
 
-    public void setData(State key, Object value)
+    public void setData(Module key, Object value)
     {
         data.put(key, value);
     }

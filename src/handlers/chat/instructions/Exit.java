@@ -3,13 +3,14 @@ package handlers.chat.instructions;
 import core.IO;
 import core.data.*;
 import core.command.Command;
+import core.data.Module;
 
 public class Exit implements Command
 {
     @Override
     public void execute(Message msg, User user, IO parent)
     {
-        user.setState(State.Basic);
+        user.setModule(Module.Basic);
 
         if (Search.isSearching(user))
         {

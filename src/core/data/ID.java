@@ -3,9 +3,9 @@ package core.data;
 public class ID
 {
     private String name;
-    private Source platform;
+    private Platform platform;
 
-    public ID(String name, Source platform)
+    public ID(String name, Platform platform)
     {
         this.name = name;
         this.platform = platform;
@@ -16,7 +16,7 @@ public class ID
         return name;
     }
 
-    public Source getPlatform()
+    public Platform getPlatform()
     {
         return platform;
     }

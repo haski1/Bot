@@ -1,6 +1,7 @@
 package core.data;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Answer
 {
@@ -28,6 +29,11 @@ public class Answer
     public void addButton(String label)
     {
         buttons.add(label);
+    }
+
+    public void addButtons(List<String> labels)
+    {
+        buttons.addAll(labels);
     }
 
     public ArrayList<String> getButtons()

@@ -13,7 +13,7 @@ public class TerminalIO implements IO
 
     public TerminalIO(IO handler)
     {
-        id = new ID("terminal", Source.Terminal);
+        id = new ID("terminal", Platform.Terminal);
         this.handler = handler;
     }
 

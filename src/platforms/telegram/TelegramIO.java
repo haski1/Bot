@@ -8,14 +8,14 @@ import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 
 import java.io.File;
+import java.io.IOException;
 
 public class TelegramIO implements IO
 {
     private IO handler;
     private TelegramBot bot;
 
-    public TelegramIO(IO handler, File file)
-    {
+    public TelegramIO(IO handler, File file) throws IOException {
         this.handler = handler;
         ApiContextInitializer.init();
 

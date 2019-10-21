@@ -17,6 +17,8 @@ public enum Emoji
         this.code = code;
         this.command = command;
     }
+
     public String getCode(){ return code;}
+
     public String getCommand(){ return command;}
 }

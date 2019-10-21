@@ -1,6 +1,6 @@
 package core.data;
 
-public enum Source
+public enum Platform
 {
     Telegram,
     Terminal

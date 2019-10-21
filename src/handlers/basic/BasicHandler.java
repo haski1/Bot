@@ -21,8 +21,7 @@ public class BasicHandler implements IO
         platforms = new PlatformsSet(this);
         users = new HashMap<>();
         handlers = new HandlersSet(this, users);
-        instructions = new InstructionsSet();
-
+        instructions = new InstructionsSet(handlers);
     }
 
     @Override
@@ -33,9 +32,9 @@ public class BasicHandler implements IO
             users.put(msg.getId(), new User(msg.getId()));
         }
         var user = users.get(msg.getId());
-        if (handlers.containsKey(user.getState()))
+        if (handlers.containsKey(user.getModule()))
         {
-            (handlers.get(user.getState())).in(msg);
+            (handlers.get(user.getModule())).in(msg);
         } else
         {
             if (instructions.containsKey(msg.getCommand()))
@@ -57,6 +56,6 @@ public class BasicHandler implements IO
 
     public void run()
     {
-        ((TerminalIO) platforms.get(Source.Terminal)).run();
+        ((TerminalIO) platforms.get(Platform.Terminal)).run();
     }
 }
