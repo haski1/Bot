@@ -54,8 +54,22 @@ public class BasicHandler implements IO
         platform.out(answer);
     }
 
-    public void run()
+    public void runWithTerminal()
     {
         ((TerminalIO) platforms.get(Platform.Terminal)).run();
+    }
+
+    public void runQuietly()
+    {
+        while(true)
+        {
+            try
+            {
+                Thread.sleep(2000);
+            }
+            catch (InterruptedException e)
+            {
+            }
+        }
     }
 }

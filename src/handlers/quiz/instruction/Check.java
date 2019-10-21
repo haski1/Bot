@@ -16,12 +16,13 @@ public class Check implements Command
         if (msg.getText().toLowerCase().equals(trueAnswer.toLowerCase()))
         {
             result = "Верно";
+            parent.out(new Answer(msg.getId(), result));
             parent.in(new Message(msg.getId(), "question"));
         }
         else
         {
             result = "Не верно";
+            parent.out(new Answer(msg.getId(), result));
         }
-        parent.out(new Answer(msg.getId(), result));
     }
 }
