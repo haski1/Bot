@@ -1,84 +1,53 @@
 package handlers.chat.instructions;
 
 import core.IO;
-import core.data.*;
 import core.command.Command;
-import core.data.Module;
+import core.data.Answer;
+import core.data.Commands;
+import core.data.Message;
+import core.data.User;
+import handlers.chat.Chat;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class Search implements Command
 {
-    private static Deque<User> freeUsers = new ArrayDeque<>();
+    private ConcurrentLinkedQueue<User> searchingUsers;
 
-    private static void addToSearch(User user)
+    Search(ConcurrentLinkedQueue<User> searchingUsers)
     {
-        freeUsers.addLast(user);
-    }
-
-    static void removeFromSearch(User user)
-    {
-        freeUsers.remove(user);
-    }
-
-    static boolean isSearching(User user)
-    {
-        return freeUsers.contains(user);
-    }
-
-    private void union(User first, User second, IO handler)
-    {
-        first.setData(Module.Chat, second);
-        second.setData(Module.Chat, first);
-        var result = "Собеседник найден!\n(Предепреджение: вы общаетесь с реальным человеком!)";
-
-        var ansToFirst = new Answer(first.getId(), result);
-        var ansToSecond = new Answer(second.getId(), result);
-        handler.out(ansToFirst);
-        handler.out(ansToSecond);
-    }
-
-    public static void nonunion(User user, IO handler)
-    {
-        var objUser = user.getData(Module.Chat);
-        if (objUser != null)
-        {
-            var userTwo = (User) objUser;
-            userTwo.setData(Module.Chat, null);
-            user.setData(Module.Chat, null);
-
-            var result = "Собеседник вышел\n Для поиска нового собеседника напишите команду /search";
-            var answer = new Answer(userTwo.getId(), result);
-            answer.addButton(Emoji.Search.getCode());
-            answer.addButton(Emoji.Stop.getCode());
-            handler.out(answer);
-        }
+        this.searchingUsers = searchingUsers;
     }
 
     @Override
-    public void execute(Message msg, User user, IO parent)
+    public Commands getName()
     {
-        if (user.getData(Module.Chat) != null)
+        return Commands.Search;
+    }
+
+    @Override
+    public void execute(Message msg, User user, IO chat)
+    {
+        if (user.getData() != null)
         {
-            nonunion(user, parent);
+            ((Chat)chat).disconnect(user);
         }
-        if (isSearching(user))
+        if (searchingUsers.contains(user))
         {
             return;
         }
-        addToSearch(user);
+        searchingUsers.add(user);
         var result = "Ищем собеседника...";
         var answer = new Answer(user.getId(), result);
-        answer.addButton(Emoji.Stop.getCode());
-        parent.out(answer);
+        answer.getButtons().add(Commands.Exit.getCode());
+        chat.out(answer);
 
 
-        if (freeUsers.size() >= 2)
+        if (searchingUsers.size() >= 2)
         {
-            var first = freeUsers.pop();
-            var second = freeUsers.pop();
-            union(first, second, parent);
+            var first = searchingUsers.poll();
+            var second = searchingUsers.poll();
+            ((Chat)chat).connect(first, second);
         }
     }
 }

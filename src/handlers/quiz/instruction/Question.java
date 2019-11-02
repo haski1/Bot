@@ -2,10 +2,8 @@ package handlers.quiz.instruction;
 
 import core.IO;
 import core.command.Command;
-import core.data.Answer;
-import core.data.Message;
+import core.data.*;
 import core.data.Module;
-import core.data.User;
 import handlers.quiz.data.QuizData;
 
 import java.util.List;
@@ -18,6 +16,11 @@ public class Question implements Command
     public Question(List<QuizData> questions)
     {
         this.questions = questions;
+    }
+
+    @Override
+    public Commands getName() {
+        return Commands.Question;
     }
 
     @Override

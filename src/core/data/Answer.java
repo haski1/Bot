@@ -26,17 +26,7 @@ public class Answer
         return id;
     }
 
-    public void addButton(String label)
-    {
-        buttons.add(label);
-    }
-
-    public void addButtons(List<String> labels)
-    {
-        buttons.addAll(labels);
-    }
-
-    public ArrayList<String> getButtons()
+    public List<String> getButtons()
     {
         return  buttons;
     }

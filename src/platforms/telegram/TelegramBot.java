@@ -54,13 +54,13 @@ public class TelegramBot extends TelegramLongPollingBot
         }
         catch (IOException ex)
         {
-            throw new IOException("Error: Сan not create file!");
+            throw new IOException("Error: Сan not create config file!");
         }
     }
 
     private void registerEmoji()
     {
-        for (var item :Emoji.values())
+        for (var item : Commands.values())
         {
             emoji.put(item.getCode(), item.getCommand());
         }

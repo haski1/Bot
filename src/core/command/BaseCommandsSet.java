@@ -4,16 +4,22 @@ import java.util.HashMap;
 
 public class BaseCommandsSet extends HashMap<String, Command>
 {
-    protected Command defaultCommand;
+    private Command defaultCommand;
 
     public BaseCommandsSet()
     {
         super();
     }
 
+    public BaseCommandsSet(Command defaultCommand)
+    {
+        super();
+        this.defaultCommand = defaultCommand;
+    }
+
     protected void register(Command command)
     {
-        this.put(command.getName(), command);
+        this.put(command.getName().getCommand(), command);
     }
 
     public Command getDefault()

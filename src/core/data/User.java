@@ -43,9 +43,9 @@ public class User
         this.module = module;
     }
 
-    public Object getData(Module key)
+    public Object getData()
     {
-        return data.get(key);
+        return data.get(module);
     }
 
     public void setData(Module key, Object value)

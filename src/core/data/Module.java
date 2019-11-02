@@ -2,9 +2,9 @@ package core.data;
 
 public enum Module
 {
-    Basic("Наберите команду /start чтобы узнать больше!", Emoji.Start.getCode()),
-    Quiz("Пиши /startquiz чтобы проиграть в викторину!\n", Emoji.Quiz.getCode()),
-    Chat("Пиши /startchat зайти в анонимный чат!", Emoji.Chat.getCode());
+    Basic("Наберите команду /start чтобы узнать больше!", Commands.Start.getCode()),
+    Quiz("Пиши /startquiz чтобы проиграть в викторину!\n", Commands.Quiz.getCode()),
+    Chat("Пиши /startchat зайти в анонимный чат!", Commands.Chat.getCode());
 
     private String prompt;
     private String button;

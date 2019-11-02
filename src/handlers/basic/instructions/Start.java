@@ -17,6 +17,12 @@ public class Start implements Command
         this.loadedHandlers = loadedHandlers;
     }
 
+    @Override
+    public Commands getName()
+    {
+        return Commands.Start;
+    }
+
     public void execute(Message msg, User user, IO parent)
     {
         var str = new StringBuilder();
@@ -31,7 +37,7 @@ public class Start implements Command
             }
         }
         var answer = new Answer(user.getId(), str.toString());
-        answer.addButtons(buttons);
+        answer.getButtons().addAll(buttons);
         parent.out(answer);
     }
 }

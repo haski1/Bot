@@ -9,9 +9,7 @@ public class QuizInstructionsSet extends BaseCommandsSet
 {
     public QuizInstructionsSet(List<QuizData> questions)
     {
-        super();
-        defaultCommand = new Check();
-        register(defaultCommand);
+        super(new Check());
         register(new Exit());
         register(new Question(questions));
     }

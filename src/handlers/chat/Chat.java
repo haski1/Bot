@@ -1,23 +1,24 @@
 package handlers.chat;
 
 import core.IO;
-import core.data.Answer;
-import core.data.ID;
-import core.data.Message;
-import core.data.User;
+import core.data.*;
+import core.data.Module;
 import handlers.chat.instructions.ChatInstructionSet;
 
 import java.util.HashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class Chat implements IO
 {
     private ChatInstructionSet instructions;
     private HashMap<ID, User> users;
     private IO parentHandler;
+    private ConcurrentLinkedQueue<User> searchingUsers;
 
     public Chat(IO handler, HashMap<ID, User> users)
     {
-        instructions = new ChatInstructionSet();
+        searchingUsers = new ConcurrentLinkedQueue<>();
+        instructions = new ChatInstructionSet(searchingUsers);
         this.parentHandler = handler;
         this.users = users;
     }
@@ -48,5 +49,34 @@ public class Chat implements IO
     public void out(Answer ans)
     {
         parentHandler.out(ans);
+    }
+
+    public void connect(User first, User second)
+    {
+        first.setData(core.data.Module.Chat, second);
+        second.setData(core.data.Module.Chat, first);
+        var result = "Собеседник найден!\n(Предепреджение: вы общаетесь с реальным человеком!)";
+
+        var ansToFirst = new Answer(first.getId(), result);
+        var ansToSecond = new Answer(second.getId(), result);
+        out(ansToFirst);
+        out(ansToSecond);
+    }
+
+    public void disconnect(User user)
+    {
+        var objUser = user.getData();
+        if (objUser != null)
+        {
+            var userTwo = (User) objUser;
+            userTwo.setData(core.data.Module.Chat, null);
+            user.setData(Module.Chat, null);
+
+            var result = "Собеседник вышел\n Для поиска нового собеседника напишите команду /search";
+            var answer = new Answer(userTwo.getId(), result);
+            answer.getButtons().add(Commands.Search.getCode());
+            answer.getButtons().add(Commands.Exit.getCode());
+            out(answer);
+        }
     }
 }
