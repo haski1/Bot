@@ -8,18 +8,19 @@ import platforms.PlatformsSet;
 import platforms.terminal.TerminalIO;
 
 import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class BasicHandler implements IO
 {
     private InstructionsSet instructions;
     private HandlersSet handlers;
     private PlatformsSet platforms;
-    private HashMap<ID, User> users;
+    private ConcurrentHashMap<ID, User> users;
 
     public BasicHandler()
     {
         platforms = new PlatformsSet(this);
-        users = new HashMap<>();
+        users = new ConcurrentHashMap<>();
         handlers = new HandlersSet(this, users);
         instructions = new InstructionsSet(handlers);
     }

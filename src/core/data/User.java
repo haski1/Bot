@@ -1,12 +1,12 @@
 package core.data;
 
-import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class User
 {
     private ID id;
     private Module module;
-    private HashMap<Module, Object> data = new HashMap<>();
+    private ConcurrentHashMap<Module, Object> data = new ConcurrentHashMap<>();
 
     public User(ID id)
     {

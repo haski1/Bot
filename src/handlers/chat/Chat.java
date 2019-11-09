@@ -1,21 +1,21 @@
 package handlers.chat;
 
 import core.IO;
-import core.data.*;
 import core.data.Module;
+import core.data.*;
 import handlers.chat.instructions.ChatInstructionSet;
 
-import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class Chat implements IO
 {
     private ChatInstructionSet instructions;
-    private HashMap<ID, User> users;
+    private ConcurrentHashMap<ID, User> users;
     private IO parentHandler;
     private ConcurrentLinkedQueue<User> searchingUsers;
 
-    public Chat(IO handler, HashMap<ID, User> users)
+    public Chat(IO handler, ConcurrentHashMap<ID, User> users)
     {
         searchingUsers = new ConcurrentLinkedQueue<>();
         instructions = new ChatInstructionSet(searchingUsers);

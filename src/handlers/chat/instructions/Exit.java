@@ -28,10 +28,7 @@ public class Exit implements Command
     {
         user.setModule(Module.Basic);
 
-        if (searchingUsers.contains(user))
-        {
-            searchingUsers.remove(user);
-        }
+        searchingUsers.remove(user);
         ((Chat)chat).disconnect(user);
         var answer = new Answer(msg.getId(), "Вы вышли из чата");
         answer.getButtons().add(Commands.Start.getCode());

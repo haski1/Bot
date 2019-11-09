@@ -13,16 +13,16 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Quiz implements IO
 {
     private QuizInstructionsSet instructions;
-    private HashMap<ID, User> users;
+    private ConcurrentHashMap<ID, User> users;
     private IO parentHandler;
 
-    public Quiz(IO handler, HashMap<ID, User> users, Path questionPath) throws IOException
+    public Quiz(IO handler, ConcurrentHashMap<ID, User> users, Path questionPath) throws IOException
     {
         var questions = loadQuestions(questionPath);
         instructions = new QuizInstructionsSet(questions);

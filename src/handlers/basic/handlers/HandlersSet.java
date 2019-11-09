@@ -10,10 +10,11 @@ import handlers.quiz.Quiz;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class HandlersSet extends HashMap<Module, IO>
 {
-    public HandlersSet(IO handler, HashMap<ID, User> users)
+    public HandlersSet(IO handler, ConcurrentHashMap<ID, User> users)
     {
         super();
         try
