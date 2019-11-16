@@ -6,6 +6,7 @@ public enum Commands
     Start("/start", "\uD83D\uDE80"),
     Quiz("/startquiz", "\uD83E\uDDE0"),
     Chat("/startchat", "\uD83D\uDE48"),
+    Calendar("/startcalendar", "📆"),
     Search("/search", "\uD83D\uDD0E"),
     Exit("/exit", "⛔"),
     Help("/help", "❓"),

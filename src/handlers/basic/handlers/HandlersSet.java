@@ -4,6 +4,7 @@ import core.IO;
 import core.data.ID;
 import core.data.Module;
 import core.data.User;
+import handlers.calendar.Calendar;
 import handlers.chat.Chat;
 import handlers.quiz.Quiz;
 
@@ -34,6 +35,15 @@ public class HandlersSet extends HashMap<Module, IO>
         catch (Exception e)
         {
             System.out.println("load module Chat - fail");
+        }
+        try
+        {
+            register(new Calendar(handler, users));
+            System.out.println("load module Calendar - ok");
+        }
+        catch (Exception e)
+        {
+            System.out.println("load module Calendar - fail");
         }
 
     }
