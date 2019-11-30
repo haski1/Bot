@@ -13,7 +13,7 @@ public enum CommandInfo
     Dialog("/dialog"),
     Question("/question"),
     Check("/check"),
-    CheckHoliday("/checkholiday", " \uD83C\uDF89"),
+    CheckHoliday("/checkholiday", "\uD83C\uDF89"),
     SetHoliday("/setholiday");
 
     private String emoji;
