@@ -8,8 +8,9 @@ import core.data.Module;
 public class Exit implements Command
 {
     @Override
-    public Commands getName() {
-        return Commands.Exit;
+    public CommandInfo getInfo()
+    {
+        return CommandInfo.Exit;
     }
 
     @Override
@@ -17,7 +18,7 @@ public class Exit implements Command
     {
         user.setModule(Module.Basic);
         var answer = new Answer(msg.getId(), "Вы вышли из календаря");
-        answer.getButtons().add(Commands.Start.getCode());
+        answer.getButtons().add(CommandInfo.Start.getEmoji());
         parent.out(answer);
     }
 }

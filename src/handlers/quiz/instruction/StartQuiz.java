@@ -8,8 +8,8 @@ import core.data.Module;
 public class StartQuiz implements Command
 {
     @Override
-    public Commands getName() {
-        return Commands.Quiz;
+    public CommandInfo getInfo() {
+        return CommandInfo.Quiz;
     }
 
     @Override
@@ -18,7 +18,7 @@ public class StartQuiz implements Command
         var result = "Вы вошли в викторину!\nВыход: /exit";
         user.setModule(Module.Quiz);
         var answer = new Answer(user.getId(), result);
-        answer.getButtons().add(Commands.Exit.getCode());
+        answer.getButtons().add(CommandInfo.Exit.getEmoji());
         parent.out(answer);
         parent.in(new Message(msg.getId(), "question"));
     }

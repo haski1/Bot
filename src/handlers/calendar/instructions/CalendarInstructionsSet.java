@@ -1,17 +1,15 @@
 package handlers.calendar.instructions;
 
 import core.command.BaseCommandsSet;
-import handlers.calendar.data.CalendarData;
-
-import java.util.ArrayList;
-import java.util.List;
+import handlers.calendar.data.BaseHoliday;
 
 public class CalendarInstructionsSet extends BaseCommandsSet
 {
-    public CalendarInstructionsSet(ArrayList<String> holidays)
+    public CalendarInstructionsSet(BaseHoliday holidays)
     {
-        super(new StartCalendar());
+        super(new SetHoliday(holidays));
+        register(new CheckHoliday(holidays));
         register(new Exit());
-        register(new Search(holidays));
+
     }
 }

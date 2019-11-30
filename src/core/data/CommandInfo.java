@@ -1,7 +1,7 @@
 package core.data;
 
 
-public enum Commands
+public enum CommandInfo
 {
     Start("/start", "\uD83D\uDE80"),
     Quiz("/startquiz", "\uD83E\uDDE0"),
@@ -12,23 +12,25 @@ public enum Commands
     Help("/help", "❓"),
     Dialog("/dialog"),
     Question("/question"),
-    Check("/check");
+    Check("/check"),
+    CheckHoliday("/checkholiday", " \uD83C\uDF89"),
+    SetHoliday("/setholiday");
 
-    private String code;
+    private String emoji;
     private String command;
 
-    Commands(String command)
+    CommandInfo(String command)
     {
         this.command = command;
     }
 
-    Commands(String command, String code)
+    CommandInfo(String name, String emoji)
     {
-        this.code = code;
-        this.command = command;
+        this.emoji = emoji;
+        this.command = name;
     }
 
-    public String getCode(){ return code;}
+    public String getEmoji(){ return emoji;}
 
-    public String getCommand(){ return command;}
+    public String getName(){ return command;}
 }

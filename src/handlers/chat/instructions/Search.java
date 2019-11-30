@@ -3,7 +3,7 @@ package handlers.chat.instructions;
 import core.IO;
 import core.command.Command;
 import core.data.Answer;
-import core.data.Commands;
+import core.data.CommandInfo;
 import core.data.Message;
 import core.data.User;
 import handlers.chat.Chat;
@@ -20,9 +20,9 @@ public class Search implements Command
     }
 
     @Override
-    public Commands getName()
+    public CommandInfo getInfo()
     {
-        return Commands.Search;
+        return CommandInfo.Search;
     }
 
     @Override
@@ -39,7 +39,7 @@ public class Search implements Command
         searchingUsers.add(user);
         var result = "Ищем собеседника...";
         var answer = new Answer(user.getId(), result);
-        answer.getButtons().add(Commands.Exit.getCode());
+        answer.getButtons().add(CommandInfo.Exit.getEmoji());
         chat.out(answer);
 
 

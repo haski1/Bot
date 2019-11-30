@@ -18,9 +18,9 @@ public class Start implements Command
     }
 
     @Override
-    public Commands getName()
+    public CommandInfo getInfo()
     {
-        return Commands.Start;
+        return CommandInfo.Start;
     }
 
     public void execute(Message msg, User user, IO parent)
@@ -33,7 +33,7 @@ public class Start implements Command
             if (loadedHandlers.containsKey(module))
             {
                 str.append(module.getPrompt());
-                buttons.add(module.getButton());
+                buttons.add(module.getCommand().getName());
             }
         }
         var answer = new Answer(user.getId(), str.toString());

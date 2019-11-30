@@ -18,9 +18,9 @@ public class Exit implements Command
     }
 
     @Override
-    public Commands getName()
+    public CommandInfo getInfo()
     {
-        return Commands.Exit;
+        return CommandInfo.Exit;
     }
 
     @Override
@@ -31,7 +31,7 @@ public class Exit implements Command
         searchingUsers.remove(user);
         ((Chat)chat).disconnect(user);
         var answer = new Answer(msg.getId(), "Вы вышли из чата");
-        answer.getButtons().add(Commands.Start.getCode());
+        answer.getButtons().add(CommandInfo.Start.getEmoji());
         chat.out(answer);
     }
 }

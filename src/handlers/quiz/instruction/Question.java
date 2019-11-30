@@ -19,8 +19,8 @@ public class Question implements Command
     }
 
     @Override
-    public Commands getName() {
-        return Commands.Question;
+    public CommandInfo getInfo() {
+        return CommandInfo.Question;
     }
 
     @Override

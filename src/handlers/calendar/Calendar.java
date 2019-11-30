@@ -5,12 +5,15 @@ import core.data.Answer;
 import core.data.ID;
 import core.data.Message;
 import core.data.User;
-import handlers.calendar.data.CalendarData;
+import handlers.calendar.data.BaseHoliday;
+import handlers.calendar.data.Holiday;
+import handlers.calendar.data.SimpleDate;
 import handlers.calendar.instructions.CalendarInstructionsSet;
 import java.io.*;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -20,37 +23,27 @@ public class Calendar implements IO
     private CalendarInstructionsSet instructions;
     private ConcurrentHashMap<ID, User> users;
     private IO parentHandler;
+    private BaseHoliday holidays;
 
-    public Calendar(IO handler, ConcurrentHashMap<ID, User> users) throws Exception {
-        var holidays = getHolidays();
+    public Calendar(IO handler, ConcurrentHashMap<ID, User> users) throws Exception
+    {
+        this.holidays = getHolidays();
         instructions = new CalendarInstructionsSet(holidays);
         this.parentHandler = handler;
         this.users = users;
+
+        Runnable task = this::run;
+        Thread thread = new Thread(task);
+        thread.start();
     }
 
-    private ArrayList<String> getHolidays() throws Exception
+    private BaseHoliday getHolidays() throws Exception
     {
-        var holidays = new ArrayList<String>();
-        var urlAPI = new URL("http://kakoysegodnyaprazdnik.ru/");
-        var yc = urlAPI.openConnection();
-        var in = new BufferedReader(new InputStreamReader(yc.getInputStream()));
-        String inputLine;
-        Pattern pattern = Pattern.compile("\"text\">(.*?)</span>");
-        while ((inputLine = in.readLine()) != null)
-        {
-            Matcher matcher = pattern.matcher(inputLine);
-            if (matcher.find())
-            {
-                var splitText = inputLine.split("\"text\"");
-                for (var i = 1; i < splitText.length; i++)
-                {
-                    var holiday = splitText[i].split("<")[0].substring(1);
-                    holidays.add(holiday);
-                }
-            }
-        }
-        in.close();
-        return holidays;
+        Holiday holiday = new Holiday("Выходной", new SimpleDate(30, 11));
+        ArrayList<Holiday> holidays = new ArrayList<>();
+        holidays.add(holiday);
+        BaseHoliday baseHolidays = new BaseHoliday(holidays);
+        return baseHolidays;
     }
 
     @Override
@@ -63,7 +56,6 @@ public class Calendar implements IO
         }
         else
         {
-            System.out.println(msg.getCommand());
             if (msg.getCommand() == null)
             {
                 instructions.getDefault().execute(msg, user, this);
@@ -79,5 +71,36 @@ public class Calendar implements IO
     public void out(Answer ans)
     {
         parentHandler.out(ans);
+    }
+
+    public void checkReminders()
+    {
+        SimpleDate simpleDate = new SimpleDate(LocalDate.now().getDayOfMonth(),
+                                               LocalDate.now().getMonth().getValue());
+        var users = holidays.getUsersWhoHasReminder();
+        for (var user: users)
+        {
+            var reminder = holidays.getUserReminder(user, simpleDate);
+            if (reminder != null)
+            {
+                var result = reminder.getName();
+                out(new Answer(user, result));
+            }
+        }
+    }
+
+    public void run()
+    {
+        while (true)
+        {
+            try
+            {
+                Thread.sleep(60000);
+            }
+            catch (InterruptedException e)
+            {
+            }
+            checkReminders();
+        }
     }
 }

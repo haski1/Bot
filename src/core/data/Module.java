@@ -1,19 +1,22 @@
 package core.data;
 
+import core.command.Command;
+import handlers.basic.instructions.Start;
+
 public enum Module
 {
-    Basic("Наберите команду /start чтобы узнать больше!", Commands.Start.getCode()),
-    Quiz("Пиши /startquiz чтобы проиграть в викторину!\n", Commands.Quiz.getCode()),
-    Chat("Пиши /startchat зайти в анонимный чат!\n", Commands.Chat.getCode()),
-    Calendar("Пиши /startcalendar чтобы зайти в календарь!", Commands.Calendar.getCode());
+    Basic("Наберите команду /start чтобы узнать больше!", CommandInfo.Start),
+    Quiz("Пиши /startquiz чтобы проиграть в викторину!\n", CommandInfo.Quiz),
+    Chat("Пиши /startchat зайти в анонимный чат!\n", CommandInfo.Chat),
+    Calendar("Пиши /startcalendar чтобы зайти в календарь!", CommandInfo.Calendar);
 
     private String prompt;
-    private String button;
+    private CommandInfo cmd;
 
-    Module(String prompt, String button)
+    Module(String prompt, CommandInfo cmd)
     {
         this.prompt = prompt;
-        this.button = button;
+        this.cmd = cmd;
     }
 
     public String getPrompt()
@@ -21,8 +24,8 @@ public enum Module
         return this.prompt;
     }
 
-    public String getButton()
+    public CommandInfo getCommand()
     {
-        return this.button;
+        return this.cmd;
     }
 }

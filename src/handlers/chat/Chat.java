@@ -74,8 +74,8 @@ public class Chat implements IO
 
             var result = "Собеседник вышел\n Для поиска нового собеседника напишите команду /search";
             var answer = new Answer(userTwo.getId(), result);
-            answer.getButtons().add(Commands.Search.getCode());
-            answer.getButtons().add(Commands.Exit.getCode());
+            answer.getButtons().add(CommandInfo.Search.getEmoji());
+            answer.getButtons().add(CommandInfo.Exit.getEmoji());
             out(answer);
         }
     }

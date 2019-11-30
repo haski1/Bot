@@ -3,16 +3,16 @@ package handlers.chat.instructions;
 import core.IO;
 import core.command.Command;
 import core.data.Answer;
-import core.data.Commands;
+import core.data.CommandInfo;
 import core.data.Message;
 import core.data.User;
 
 public class Dialog implements Command
 {
     @Override
-    public Commands getName()
+    public CommandInfo getInfo()
     {
-        return Commands.Dialog;
+        return CommandInfo.Dialog;
     }
 
     @Override

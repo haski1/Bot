@@ -60,9 +60,9 @@ public class TelegramBot extends TelegramLongPollingBot
 
     private void registerEmoji()
     {
-        for (var item : Commands.values())
+        for (var item : CommandInfo.values())
         {
-            emoji.put(item.getCode(), item.getCommand());
+            emoji.put(item.getEmoji(), item.getName());
         }
     }
 

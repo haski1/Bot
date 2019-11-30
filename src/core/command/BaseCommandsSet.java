@@ -19,7 +19,7 @@ public class BaseCommandsSet extends HashMap<String, Command>
 
     protected void register(Command command)
     {
-        this.put(command.getName().getCommand().substring(1), command);
+        this.put(command.getInfo().getName().substring(1), command);
     }
 
     public Command getDefault()

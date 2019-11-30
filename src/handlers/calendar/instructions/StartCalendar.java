@@ -8,19 +8,19 @@ import core.data.Module;
 public class StartCalendar implements Command
 {
     @Override
-    public Commands getName()
+    public CommandInfo getInfo()
     {
-        return Commands.Calendar;
+        return CommandInfo.Calendar;
     }
 
     @Override
     public void execute(Message msg, User user, IO parent)
     {
-        var result = "Вы вошли в календарь!\nДля поиска праздников напиши команду /search\nВыход: /exit";
+        var result = "Вы вошли в календарь!\nСегодняшний праздник /checkholiday\n Установить праздник holiday dd.MM Name\nУстановить напоминание reminder dd.MM Name\nВыход: /exit";
         user.setModule(Module.Calendar);
         var answer = new Answer(user.getId(), result);
-        answer.getButtons().add(Commands.Search.getCode());
-        answer.getButtons().add(Commands.Exit.getCode());
+        answer.getButtons().add(CommandInfo.CheckHoliday.getEmoji());
+        answer.getButtons().add(CommandInfo.Exit.getEmoji());
         parent.out(answer);
     }
 }

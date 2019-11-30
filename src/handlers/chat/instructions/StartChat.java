@@ -8,9 +8,9 @@ import core.data.Module;
 public class StartChat implements Command
 {
     @Override
-    public Commands getName()
+    public CommandInfo getInfo()
     {
-        return Commands.Chat;
+        return CommandInfo.Chat;
     }
 
     @Override
@@ -19,8 +19,8 @@ public class StartChat implements Command
         user.setModule(Module.Chat);
         var result = "Вы вошли в анонимный чат\nДля поиска собеседника напиши команду /search\nВыход: /exit";
         var answer = new Answer(user.getId(), result);
-        answer.getButtons().add(Commands.Search.getCode());
-        answer.getButtons().add(Commands.Exit.getCode());
+        answer.getButtons().add(CommandInfo.Search.getEmoji());
+        answer.getButtons().add(CommandInfo.Exit.getEmoji());
         parent.out(answer);
     }
 }

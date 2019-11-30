@@ -3,7 +3,7 @@ package handlers.quiz.instruction;
 import core.IO;
 import core.command.Command;
 import core.data.Answer;
-import core.data.Commands;
+import core.data.CommandInfo;
 import core.data.Message;
 import core.data.User;
 import handlers.quiz.data.QuizData;
@@ -11,8 +11,8 @@ import handlers.quiz.data.QuizData;
 public class Check implements Command
 {
     @Override
-    public Commands getName() {
-        return Commands.Check;
+    public CommandInfo getInfo() {
+        return CommandInfo.Check;
     }
 
     @Override
