@@ -12,6 +12,10 @@ public class BaseHoliday
     private Map<ID, Map<SimpleDate, Holiday>> usersHolidays = new HashMap<>();
     private Map<ID, Map<SimpleDate, Holiday>> usersReminders = new HashMap<>();
 
+    public BaseHoliday()
+    {
+    }
+
     public BaseHoliday(List<Holiday> holidays)
     {
         for (Holiday holiday: holidays)
@@ -27,7 +31,9 @@ public class BaseHoliday
 
     public Holiday getUserHoliday(ID id, SimpleDate date)
     {
-        return usersHolidays.get(id).get(date);
+        if ( usersHolidays.containsKey(id))
+            return usersHolidays.get(id).get(date);
+        return null;
     }
 
     public Holiday getUserReminder(ID id, SimpleDate date)

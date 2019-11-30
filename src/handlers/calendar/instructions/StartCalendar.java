@@ -21,7 +21,7 @@ public class StartCalendar implements Command
         result.append("Сегодняшний праздник /checkholiday\n");
         result.append("Чтобы установить праздник напиши holiday dd.MM Name\n");
         result.append("Например: holiday 31.12 Новый год!\n");
-        result.append("Чтобы установить напоминание напиши reminder dd.MM Name");
+        result.append("Чтобы установить напоминание напиши reminder dd.MM Name\n");
         result.append("Например: reminder 14.02 Контрольная!\n");
         result.append("Выход: /exit");
 

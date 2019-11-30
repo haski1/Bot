@@ -25,7 +25,7 @@ public class Calendar implements IO
     private IO parentHandler;
     private BaseHoliday holidays;
 
-    public Calendar(IO handler, ConcurrentHashMap<ID, User> users) throws Exception
+    public Calendar(IO handler, ConcurrentHashMap<ID, User> users)
     {
         this.holidays = getHolidays();
         instructions = new CalendarInstructionsSet(holidays);
@@ -37,13 +37,9 @@ public class Calendar implements IO
         thread.start();
     }
 
-    private BaseHoliday getHolidays() throws Exception
+    private BaseHoliday getHolidays()
     {
-        Holiday holiday = new Holiday("Выходной", new SimpleDate(30, 11));
-        ArrayList<Holiday> holidays = new ArrayList<>();
-        holidays.add(holiday);
-        BaseHoliday baseHolidays = new BaseHoliday(holidays);
-        return baseHolidays;
+        return new BaseHoliday();
     }
 
     @Override
