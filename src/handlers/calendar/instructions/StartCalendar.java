@@ -16,9 +16,17 @@ public class StartCalendar implements Command
     @Override
     public void execute(Message msg, User user, IO parent)
     {
-        var result = "Вы вошли в календарь!\nСегодняшний праздник /checkholiday\n Установить праздник holiday dd.MM Name\nУстановить напоминание reminder dd.MM Name\nВыход: /exit";
+        var result = new StringBuilder();
+        result.append("Вы вошли в календарь!\n");
+        result.append("Сегодняшний праздник /checkholiday\n");
+        result.append("Чтобы установить праздник напиши holiday dd.MM Name\n");
+        result.append("Например: holiday 31.12 Новый год!\n");
+        result.append("Чтобы установить напоминание напиши reminder dd.MM Name");
+        result.append("Например: reminder 14.02 Контрольная!\n");
+        result.append("Выход: /exit");
+
         user.setModule(Module.Calendar);
-        var answer = new Answer(user.getId(), result);
+        var answer = new Answer(user.getId(), result.toString());
         answer.getButtons().add(CommandInfo.CheckHoliday.getEmoji());
         answer.getButtons().add(CommandInfo.Exit.getEmoji());
         parent.out(answer);

@@ -33,7 +33,7 @@ public class Start implements Command
             if (loadedHandlers.containsKey(module))
             {
                 str.append(module.getPrompt());
-                buttons.add(module.getCommand().getName());
+                buttons.add(module.getCommand().getEmoji());
             }
         }
         var answer = new Answer(user.getId(), str.toString());

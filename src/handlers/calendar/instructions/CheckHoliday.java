@@ -44,8 +44,14 @@ public class CheckHoliday implements Command
         handlers.calendar.data.Holiday userHoliday = holidays.getUserHoliday(user.getId(), simpleDate);
         if (userHoliday != null)
         {
+            result.append(holiday.getDate());
+            result.append('\n');
             result.append(userHoliday.getName());
             result.append('\n');
+        }
+        if (result.length() == 0)
+        {
+            result.append("Сегодня без праздников");
         }
         parent.out(new Answer(msg.getId(), result.toString()));
     }
