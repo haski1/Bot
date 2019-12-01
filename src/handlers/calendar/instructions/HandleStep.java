@@ -128,14 +128,14 @@ public class HandleStep implements Command
             Context userContext = usersContext.get(user.getId());
             holidays.setUserHoliday(user.getId(), new Holiday(userContext.date, userContext.name));
             holidays.setUserReminder(user.getId(), new Holiday(userContext.dateReminder, userContext.name));
-            result.append("Праздник установлен\n");
+            result.append("Праздник и напоминания установлены\n");
 
             var answer = new Answer(user.getId(), result.toString());
             answer.getButtons().add(CommandInfo.CheckHoliday.getEmoji());
             answer.getButtons().add(CommandInfo.SetEvent.getEmoji());
             answer.getButtons().add(CommandInfo.Exit.getEmoji());
-            user.setData(null);
             parent.out(answer);
+            user.setData(Step.Empty);
             return;
         }
         result.append("Неправильные формат\n");
