@@ -7,7 +7,8 @@ public class CalendarInstructionsSet extends BaseCommandsSet
 {
     public CalendarInstructionsSet(BaseHoliday holidays)
     {
-        super(new SetHoliday(holidays));
+        super(new HandleStep(holidays));
+        register(new SetEvent());
         register(new CheckHoliday(holidays));
         register(new Exit());
 

@@ -53,8 +53,8 @@ public class Chat implements IO
 
     public void connect(User first, User second)
     {
-        first.setData(core.data.Module.Chat, second);
-        second.setData(core.data.Module.Chat, first);
+        first.setData(second);
+        second.setData(first);
         var result = "Собеседник найден!\n(Предепреджение: вы общаетесь с реальным человеком!)";
 
         var ansToFirst = new Answer(first.getId(), result);
@@ -69,8 +69,8 @@ public class Chat implements IO
         if (objUser != null)
         {
             var userTwo = (User) objUser;
-            userTwo.setData(core.data.Module.Chat, null);
-            user.setData(Module.Chat, null);
+            userTwo.setData(null);
+            user.setData(null);
 
             var result = "Собеседник вышел\n Для поиска нового собеседника напишите команду /search";
             var answer = new Answer(userTwo.getId(), result);

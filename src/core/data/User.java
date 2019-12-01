@@ -48,8 +48,8 @@ public class User
         return data.get(module);
     }
 
-    public void setData(Module key, Object value)
+    public void setData(Object value)
     {
-        data.put(key, value);
+        data.put(module, value);
     }
 }

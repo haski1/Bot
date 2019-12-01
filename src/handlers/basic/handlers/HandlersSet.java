@@ -38,7 +38,7 @@ public class HandlersSet extends HashMap<Module, IO>
         }
         try
         {
-            register(new Calendar(handler, users));
+            register(new Calendar(handler, users, Paths.get("resources/holidays.txt")));
             System.out.println("load module Calendar - ok");
         }
         catch (Exception e)

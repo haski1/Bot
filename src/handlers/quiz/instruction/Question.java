@@ -27,7 +27,7 @@ public class Question implements Command
     public void execute(Message msg, User user, IO parent)
     {
         var question = questions.get(new Random().nextInt(questions.size()));
-        user.setData(Module.Quiz, question);
+        user.setData(question);
         parent.out(new Answer(msg.getId(), question.question));
     }
 }
