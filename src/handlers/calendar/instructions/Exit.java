@@ -4,6 +4,7 @@ import core.IO;
 import core.command.Command;
 import core.data.*;
 import core.data.Module;
+import handlers.calendar.data.Step;
 
 public class Exit implements Command
 {
@@ -19,6 +20,7 @@ public class Exit implements Command
         user.setModule(Module.Basic);
         var answer = new Answer(msg.getId(), "Вы вышли из календаря");
         answer.getButtons().add(CommandInfo.Start.getEmoji());
+        user.setData(Step.Empty);
         parent.out(answer);
     }
 }

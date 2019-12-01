@@ -30,6 +30,8 @@ public class SetEvent implements Command
         result.append("Напишите дату\n");
         result.append("Формат дд.мм\n");
         result.append("Пример 01.01\n");
-        parent.out(new Answer(msg.getId(), result.toString()));
+        var answer = new Answer(user.getId(), result.toString());
+        answer.getButtons().add(CommandInfo.Exit.getEmoji());
+        parent.out(answer);
     }
 }
