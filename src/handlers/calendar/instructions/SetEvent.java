@@ -6,15 +6,17 @@ import core.data.Answer;
 import core.data.CommandInfo;
 import core.data.Message;
 import core.data.User;
-import handlers.calendar.data.BaseHoliday;
-import handlers.calendar.data.Holiday;
-import handlers.calendar.data.SimpleDate;
-import handlers.calendar.data.Step;
-
-import java.util.regex.Pattern;
+import handlers.calendar.context.Context;
+import handlers.calendar.context.ContextHandler;
 
 public class SetEvent implements Command
 {
+    private ContextHandler setHolidayDate;
+
+    public SetEvent(ContextHandler setHolidayDate)
+    {
+        this.setHolidayDate = setHolidayDate;
+    }
 
     @Override
     public CommandInfo getInfo()
@@ -25,12 +27,8 @@ public class SetEvent implements Command
     @Override
     public void execute(Message msg, User user, IO parent)
     {
-        StringBuilder result = new StringBuilder();
-        user.setData(Step.SetHolidayDate);
-        result.append("Напишите дату\n");
-        result.append("Формат дд.мм\n");
-        result.append("Пример 01.01\n");
-        var answer = new Answer(user.getId(), result.toString());
+        user.setData(new Context(setHolidayDate));
+        var answer = new Answer(user.getId(), "Напишите дату\nФормат дд.мм\nПример 01.01\n");
         answer.getButtons().add(CommandInfo.Exit.getEmoji());
         parent.out(answer);
     }

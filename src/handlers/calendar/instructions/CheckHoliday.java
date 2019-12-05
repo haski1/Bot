@@ -6,19 +6,20 @@ import core.data.Answer;
 import core.data.CommandInfo;
 import core.data.Message;
 import core.data.User;
-import handlers.calendar.data.BaseHoliday;
+import handlers.calendar.data.DataBaseHolidays;
 import handlers.calendar.data.Holiday;
 import handlers.calendar.data.SimpleDate;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class CheckHoliday implements Command
 {
-    private BaseHoliday holidays;
+    private DataBaseHolidays dataBaseHolidays;
 
-    public CheckHoliday(BaseHoliday holidays)
+    public CheckHoliday(DataBaseHolidays holidays)
     {
-        this.holidays = holidays;
+        this.dataBaseHolidays = holidays;
     }
 
     @Override
@@ -30,29 +31,16 @@ public class CheckHoliday implements Command
     @Override
     public void execute(Message msg, User user, IO parent)
     {
-        SimpleDate simpleDate = new SimpleDate(LocalDate.now().getDayOfMonth(),
-                                               LocalDate.now().getMonth().getValue());
+        SimpleDate simpleDate = SimpleDate.fromLocalDate(LocalDate.now());
         StringBuilder result = new StringBuilder();
-        handlers.calendar.data.Holiday holiday = holidays.getHoliday(simpleDate);
-        if (holiday != null)
-        {
-            result.append(holiday.getDate());
-            result.append('\n');
-            result.append(holiday.getName());
-            result.append('\n');
-        }
-        handlers.calendar.data.Holiday userHoliday = holidays.getUserHoliday(user.getId(), simpleDate);
-        if (userHoliday != null)
-        {
-            result.append(holiday.getDate());
-            result.append('\n');
-            result.append(userHoliday.getName());
-            result.append('\n');
-        }
+        List<Holiday> holidays = dataBaseHolidays.getUserHolidays(user.getId(), simpleDate);
+
+        for (Holiday holiday: holidays)
+            result.append(holiday).append("\n");
+
         if (result.length() == 0)
-        {
             result.append("Сегодня без праздников");
-        }
+
         parent.out(new Answer(msg.getId(), result.toString()));
     }
 }

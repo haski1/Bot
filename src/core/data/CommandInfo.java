@@ -15,9 +15,10 @@ public enum CommandInfo
     Check("/check"),
     CheckHoliday("/checkholiday", "\uD83C\uDF89"),
     SetEvent("/setevent", "✂️"),
-    HandleStep("/handlestep❌"),
+    HandleContext("/handlecontext"),
     Yes("да", "✅"),
     No("нет", "❌");
+
 
     private String emoji;
     private String command;

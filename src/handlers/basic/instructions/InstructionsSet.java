@@ -14,9 +14,9 @@ public class InstructionsSet extends BaseCommandsSet
         super(new Help());
         register(new Start(loadedHandlers));
         if (loadedHandlers.containsKey(Module.Quiz))
-        {
-            register(new StartQuiz());
-        }
+    {
+        register(new StartQuiz());
+    }
         if (loadedHandlers.containsKey(Module.Chat))
         {
             register(new StartChat());
